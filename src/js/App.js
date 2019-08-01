@@ -21,6 +21,9 @@ class App extends React.Component {
         const viewer = new Cesium.Viewer(cesiumContainerId, {
         });
 
+        let center = Cesium.Cartesian3.fromDegrees(6.958307, 50.941357);
+        viewer.camera.lookAt(center, new Cesium.Cartesian3(0, 0, 1000.0));
+
         this.setState({
             viewer: viewer
         });
