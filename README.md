@@ -8,7 +8,11 @@
 
 - [ ] Integration into a Docker environment
 
-- [ ] Loading the 3D city model of Cologne, Germany into the application
+- [ ] Loading the 3D city model of Cologne, Germany into the application. Source: [offenedaten-koeln.de](https://www.offenedaten-koeln.de/dataset/3d-stadtmodell-koeln-0)
+  - See KIT links
+  - [https://github.com/3dcitydb/3dcitydb-web-map](https://github.com/3dcitydb/3dcitydb-web-map)
+  - [https://groups.google.com/forum/#!topic/cesium-dev/Jkga8_8tPWA](https://groups.google.com/forum/#!topic/cesium-dev/Jkga8_8tPWA)
+  - [https://github.com/sushrut141/Cesium-WebFeatureService](https://github.com/sushrut141/Cesium-WebFeatureService)
 
 - [ ] Slot a start screen (e.g. picture of Cologne Cathedral) in ahead
 
