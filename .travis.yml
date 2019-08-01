@@ -14,4 +14,4 @@ deploy:
   local_dir: dist
   on:
     branch: master
-  before_install: cd project
+  before_install: cd 3d_demo_client
