@@ -14,3 +14,4 @@ deploy:
   local_dir: dist
   on:
     branch: master
+  before_install: cd project
