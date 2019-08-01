@@ -1,5 +1,7 @@
 # CesiumJS 3D Demo-Client
 
+[![Build Status](https://travis-ci.com/mholthausen/3d_demo_client.svg?branch=master)](https://travis-ci.com/mholthausen/3d_demo_client)
+
 ## Requirements
 
 - [x] Setting up the Node.Js (10.16.1 LTS) and React.Js (^16.8.6) environment
@@ -9,6 +11,7 @@
 - [ ] Integration into a Docker environment
 
 - [ ] Loading the 3D city model of Cologne, Germany into the application. Source: [offenedaten-koeln.de](https://www.offenedaten-koeln.de/dataset/3d-stadtmodell-koeln-0)
+
   - See KIT links
   - [https://github.com/3dcitydb/3dcitydb-web-map](https://github.com/3dcitydb/3dcitydb-web-map)
   - [https://groups.google.com/forum/#!topic/cesium-dev/Jkga8_8tPWA](https://groups.google.com/forum/#!topic/cesium-dev/Jkga8_8tPWA)
