@@ -4,7 +4,7 @@
 
 - [x] Setting up the Node.Js (10.16.1 LTS) and React.Js (^16.8.6) environment
 
-- [ ] Integration of the latest version of the [CesiumJS](https://cesiumjs.org/) framework at the time of development (Version 1.59)
+- [x] Integration of the latest version of the [CesiumJS](https://cesiumjs.org/) framework at the time of development (Version 1.59)
 
 - [ ] Integration into a Docker environment
 
