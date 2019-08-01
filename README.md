@@ -25,3 +25,17 @@
 ## Plannning
 
 The purpose of this application is a short demonstration of possibilities and a selection of applications in the 3D context.
+
+## Running the app
+
+First, build the app by
+
+```bash
+docker build --rm -t ddd_viewer -f docker/3d_viewer/Dockerfile .
+```
+
+then uses the following command to run the app:
+
+```bash
+$ docker run -v ${PWD}:/app -v /app/node_modules -p 3001:3000 --rm sample:dev
+```
