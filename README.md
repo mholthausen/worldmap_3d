@@ -32,3 +32,9 @@
 ## Plannning
 
 The purpose of this application is a short demonstration of possibilities and a selection of applications in the 3D context.
+
+## Start
+
+Start the app with
+
+`npm install` followed by `npm run start`
