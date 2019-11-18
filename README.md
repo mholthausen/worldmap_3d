@@ -6,7 +6,8 @@
 
 - [x] Integration of the latest version of the [CesiumJS](https://cesiumjs.org/) framework at the time of development (Version 1.59)
 
-- [ ] Integration into a Docker environment
+- [ ] Integration into a Docker environment  
+Does not work: `sh: webpack-dev-server: not found`
 
 - [ ] Loading the 3D city model of Cologne, Germany into the application
 
@@ -31,11 +32,11 @@ The purpose of this application is a short demonstration of possibilities and a 
 First, build the app by
 
 ```bash
-docker build --rm -t ddd_viewer -f docker/3d_viewer/Dockerfile .
+docker build --rm -t ddd_viewer .
 ```
 
 then uses the following command to run the app:
 
 ```bash
-$ docker run -v ${PWD}:/app -v /app/node_modules -p 3001:3000 --rm sample:dev
+docker run -v ${PWD}:/app -v /app/node_modules -p 3001:3000 --rm sample:dev
 ```
