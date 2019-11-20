@@ -1,8 +1,7 @@
 version: '3.7'
 
 services:
-
-  sample:
+  viewer:
     container_name: ddd_viewer
     build:
       context: .
@@ -10,6 +9,13 @@ services:
     volumes:
       - '.:/app'
     ports:
-      - '3010:3000'
+      - '3000:3000'
     environment:
       - NODE_ENV=development
+  nginx:
+    build:
+      context: nginx/
+    ports:
+      - 80:80
+    depends_on:
+      - viewer
