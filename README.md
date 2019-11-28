@@ -8,7 +8,7 @@
 
 - [x] Integration of the latest version of the [CesiumJS](https://cesiumjs.org/) framework at the time of development (Version 1.59)
 
-- [ ] Integration into a Docker environment
+- [ ] ~~Integration into a Docker environment~~
 
 - [ ] Loading the 3D city model of Cologne, Germany into the application. Source: [offenedaten-koeln.de](https://www.offenedaten-koeln.de/dataset/3d-stadtmodell-koeln-0)
 
