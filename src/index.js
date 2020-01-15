@@ -1,9 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import Cesium from 'cesium/Cesium';
-
-import 'cesium/Widgets/widgets.css';
+import 'cesium/Build/Cesium/Widgets/widgets.css'
 import './css/main.css';
 
 import App from './js/App';

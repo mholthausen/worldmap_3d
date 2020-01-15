@@ -5,8 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopywebpackPlugin = require('copy-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
-const cesiumSource = 'node_modules/cesium/Source';
-const cesiumWorkers = '../Build/Cesium/Workers';
+const cesiumSource = 'node_modules/cesium';
 
 module.exports = {
     context: __dirname,
@@ -18,14 +17,18 @@ module.exports = {
         path: path.resolve(__dirname, 'dist'),
         sourcePrefix: '',
     },
-    amd: {
-        toUrlUndefined: true
-    },
     node: {
-        fs: 'empty'
+        fs: 'empty',
+        Buffer: false,
+        http: "empty",
+        https: "empty",
+        zlib: "empty"
+    },
+    resolve: {
+        mainFields: ['module', 'main']
     },
     module: {
-        unknownContextCritical: false,
+        // unknownContextCritical: false,
         rules: [{
             test: /\.css$/,
             use: ['style-loader', 'css-loader']
@@ -63,9 +66,10 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: 'src/index.html',
         }),
-        new CopywebpackPlugin([{ from: path.join(cesiumSource, cesiumWorkers), to: 'Workers' }]),
-        new CopywebpackPlugin([{ from: path.join(cesiumSource, 'Assets'), to: 'Assets' }]),
-        new CopywebpackPlugin([{ from: path.join(cesiumSource, 'Widgets'), to: 'Widgets' }]),
+        new CopywebpackPlugin([{ from: path.join(cesiumSource, 'Build/Cesium/Workers'), to: 'Workers' }]),
+        new CopywebpackPlugin([{ from: path.join(cesiumSource, 'Build/Cesium/ThirdParty'), to: 'ThirdParty' }]),
+        new CopywebpackPlugin([{ from: path.join(cesiumSource, 'Build/Cesium/Assets'), to: 'Assets' }]),
+        new CopywebpackPlugin([{ from: path.join(cesiumSource, 'Build/Cesium/Widgets'), to: 'Widgets' }]),
         new webpack.DefinePlugin({
             CESIUM_BASE_URL: JSON.stringify('')
         })
