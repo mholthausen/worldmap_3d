@@ -1,0 +1,166 @@
+{
+  "asset": {
+    "version": "1.0"
+  },
+  "geometricError": 5000,
+  "root": {
+    "boundingVolume": {
+      "box": [
+        0,
+        20742.787,
+        0,
+        22722.852,
+        0,
+        0,
+        0,
+        8723.852,
+        0,
+        0,
+        0,
+        13500.508
+      ]
+    },
+    "geometricError": 5000,
+    "children": [
+      {
+        "boundingVolume": {
+          "box": [
+            201.238,
+            12018.936,
+            66.213,
+            7616.694,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4747.73
+          ]
+        },
+        "geometricError": 2500,
+        "children": [],
+        "refine": "add",
+        "content": {
+          "uri": "tiles/1.b3dm"
+        }
+      },
+      {
+        "boundingVolume": {
+          "box": [
+            125.497,
+            18071.646,
+            -133.787,
+            12951.678,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            8162.362
+          ]
+        },
+        "geometricError": 2500,
+        "children": [],
+        "refine": "add",
+        "content": {
+          "uri": "tiles/2.b3dm"
+        }
+      },
+      {
+        "boundingVolume": {
+          "box": [
+            -507.678,
+            22262.668,
+            -379.731,
+            17243.168,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            11146.765
+          ]
+        },
+        "geometricError": 2500,
+        "children": [],
+        "refine": "add",
+        "content": {
+          "uri": "tiles/3.b3dm"
+        }
+      },
+      {
+        "boundingVolume": {
+          "box": [
+            -688.914,
+            25830.873,
+            -296.453,
+            20393.195,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            13046.462
+          ]
+        },
+        "geometricError": 2500,
+        "children": [],
+        "refine": "add",
+        "content": {
+          "uri": "tiles/4.b3dm"
+        }
+      },
+      {
+        "boundingVolume": {
+          "box": [
+            0,
+            29466.639,
+            0,
+            22722.852,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            13500.508
+          ]
+        },
+        "geometricError": 2500,
+        "children": [],
+        "refine": "add",
+        "content": {
+          "uri": "tiles/5.b3dm"
+        }
+      }
+    ],
+    "refine": "add",
+    "transform": [
+      1,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      3782143.595,
+      903962.173,
+      5038130.175,
+      1
+    ]
+  }
+}

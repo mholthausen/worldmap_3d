@@ -1,0 +1,2 @@
+*.glb filter=lfs diff=lfs merge=lfs -text
+*.b3dm filter=lfs diff=lfs merge=lfs -text
