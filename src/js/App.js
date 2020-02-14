@@ -78,6 +78,9 @@ class App extends React.Component {
             let offset = Cartesian3.fromRadians(cartographic.longitude, cartographic.latitude, heightOffset);
             let translation = Cartesian3.subtract(offset, surface, new Cartesian3());
             tileset.modelMatrix = Matrix4.fromTranslation(translation);
+            tileset.style = new Cesium3DTileStyle({
+                color: 'rgb(255, 0, 0)'
+            });
         });
 
         return tileset_;
@@ -138,10 +141,9 @@ class App extends React.Component {
         //     }
         // });
 
-        // let tileset = this.addTileset('http://localhost:3000/tilesets/py3dtiles/tileset.json', 0, viewer);
-        // let tileset2 = this.addTileset('http://localhost:3000/tilesets/Middle_Buntsandstein/tileset.json',0, viewer);
-
-        let tileset = this.addTileset('http://localhost:3000/tilesets/cgal/tileset.json',0, viewer);
+        let tileset = this.addTileset('http://localhost:3000/tilesets/top_Upper_Buntsandstein_1909_05/tileset.json',0, viewer);
+        // let tileset = this.addTileset('http://localhost:3000/tilesets/top_Upper_Buntsandstein_1909_10/tileset.json',0, viewer);
+        // let tileset = this.addTileset('http://localhost:3000/tilesets/top_Upper_Buntsandstein_1909/tileset.json',0, viewer);
 
         // let polygon = viewer.entities.add({
         //     polygon : {
@@ -172,9 +174,8 @@ class App extends React.Component {
             // Show lat, lon, height
             let cartesian = viewer.scene.pickPosition(movement.endPosition);
             let feature = viewer.scene.pick(movement.endPosition);
-            // console.log(feature);
+             console.log(feature);
             if (feature instanceof Cesium3DTileFeature) {
-                debugger;
                 let propertyNames = feature.getPropertyNames();
                 let length = propertyNames.length;
                 for (let i = 0; i < length; ++i) {
@@ -182,21 +183,21 @@ class App extends React.Component {
                     // console.log(propertyName + ': ' + feature.getProperty(propertyName));
                 }
             }
-            if (cartesian) {
-                let cartographic = Cartographic.fromCartesian(cartesian);
-                let longitudeString = Math.toDegrees(cartographic.longitude).toFixed(4);
-                let latitudeString = Math.toDegrees(cartographic.latitude).toFixed(4);
-                let heightString = cartographic.height.toFixed(4);
+            // if (cartesian) {
+            //     let cartographic = Cartographic.fromCartesian(cartesian);
+            //     let longitudeString = Math.toDegrees(cartographic.longitude).toFixed(4);
+            //     let latitudeString = Math.toDegrees(cartographic.latitude).toFixed(4);
+            //     let heightString = cartographic.height.toFixed(4);
 
-                entity.position = cartesian;
-                entity.label.show = true;
-                entity.label.text =
-                    'Lon: ' + ('   ' + longitudeString) + '\u00B0' +
-                    '\nLat: ' + ('   ' + latitudeString) + '\u00B0' +
-                    '\nAlt: ' + ('   ' + heightString) + 'm';
-            } else {
+            //     entity.position = cartesian;
+            //     entity.label.show = true;
+            //     entity.label.text =
+            //         'Lon: ' + ('   ' + longitudeString) + '\u00B0' +
+            //         '\nLat: ' + ('   ' + latitudeString) + '\u00B0' +
+            //         '\nAlt: ' + ('   ' + heightString) + 'm';
+            // } else {
                 entity.label.show = false;
-            }
+            // }
         }, ScreenSpaceEventType.MOUSE_MOVE);
 
         viewer.zoomTo(tileset)
