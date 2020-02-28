@@ -17,6 +17,7 @@ import {
     Cesium3DTileFeature,
     BoundingSphere,
     HeadingPitchRange,
+    Matrix3,
     Matrix4,
     HeadingPitchRoll,
     ClippingPlaneCollection,
@@ -52,6 +53,36 @@ class App extends React.Component {
         };
 
         this.addTileset = this.addTileset.bind(this);
+        this.computeTransform = this.computeTransform.bind(this)
+        this.computeTransforms = this.computeTransforms.bind(this)
+    }
+
+    computeTransforms(tileset) {
+        console.log('in function')
+        console.log(tileset)
+        var t = tileset.root;
+        console.log(t);
+        var transformToRoot = defined(t.transform) ? Matrix4.fromArray(t.transform) : Matrix4.IDENTITY;
+
+        this.computeTransform(t, transformToRoot);
+    }
+
+    computeTransform(tile, transformToRoot) {
+        // Apply 4x4 transformToRoot to this tile's positions and bounding volumes
+
+        var inverseTransform = Matrix4.inverse(transformToRoot, new Matrix4());
+        var normalTransform = Matrix4.getRotation(inverseTransform, new Matrix3());
+        normalTransform = Matrix3.transpose(normalTransform, normalTransform);
+        // Apply 3x3 normalTransform to this tile's normals
+
+        var children = tile.children;
+        var length = children.length;
+        for (var i = 0; i < length; ++i) {
+            var child = children[i];
+            var childToRoot = defined(child.transform) ? Matrix4.fromArray(child.transform) : Matrix4.clone(Matrix4.IDENTITY);
+            childToRoot = Matrix4.multiplyTransformation(transformToRoot, childToRoot, childToRoot);
+            this.computeTransform(child, childToRoot);
+        }
     }
 
     /**
@@ -78,11 +109,20 @@ class App extends React.Component {
             let offset = Cartesian3.fromRadians(cartographic.longitude, cartographic.latitude, heightOffset);
             let translation = Cartesian3.subtract(offset, surface, new Cartesian3());
             tileset.modelMatrix = Matrix4.fromTranslation(translation);
+            let t = tileset.root;
+            console.log(surface);
+            let matrix = Transforms.eastNorthUpToFixedFrame(surface);
+            console.log(matrix)
+            t.transform = matrix;
+
             tileset.style = new Cesium3DTileStyle({
-                color: 'rgb(255, 0, 0)'
+                color: {
+                    conditions: [
+                        ['true', 'rgb(127, 59, 8)']
+                    ]
+                }
             });
         });
-
         return tileset_;
     }
 
@@ -98,6 +138,7 @@ class App extends React.Component {
 
         const viewer = new Viewer(cesiumContainerId, {
             // terrainProvider: worldTerrain,
+            // globe: false,
             timeline: false,
             animation: false,
             baseLayerPicker: true,
@@ -115,9 +156,9 @@ class App extends React.Component {
         viewer.scene.screenSpaceCameraController.enableCollisionDetection = false;
         // viewer.scene.frameState.creditDisplay.destroy();
 
-        // viewer.extend(viewerCesium3DTilesInspectorMixin);
+        viewer.extend(viewerCesium3DTilesInspectorMixin);
 
-        viewer.baseLayerPicker.viewModel.selectedImagery = viewer.baseLayerPicker.viewModel.imageryProviderViewModels[9];
+        //viewer.baseLayerPicker.viewModel.selectedImagery = viewer.baseLayerPicker.viewModel.imageryProviderViewModels[9];
         viewer.entities.removeAll();
 
         // let rectangle = viewer.scene.primitives.add(new Primitive({
@@ -141,9 +182,10 @@ class App extends React.Component {
         //     }
         // });
 
-        let tileset = this.addTileset('http://localhost:3000/tilesets/top_Upper_Buntsandstein_1909_05/tileset.json',0, viewer);
+        // let tileset = this.addTileset('http://localhost:3000/tilesets/top_Upper_Buntsandstein_1909_05/tileset.json',0, viewer);
         // let tileset = this.addTileset('http://localhost:3000/tilesets/top_Upper_Buntsandstein_1909_10/tileset.json',0, viewer);
-        // let tileset = this.addTileset('http://localhost:3000/tilesets/top_Upper_Buntsandstein_1909/tileset.json',0, viewer);
+        // let tileset = this.addTileset('http://localhost:3000/tilesets/1909/tileset.json', 0, viewer);
+        let tileset = this.addTileset('http://localhost:3000/tilesets/py3dtiles/tileset.json', 0, viewer);
 
         // let polygon = viewer.entities.add({
         //     polygon : {
@@ -158,31 +200,36 @@ class App extends React.Component {
         // polygon.polygon.material = '../images/pic.jpg';
 
         // Mouse over the globe to see the cartographic position
-        let entity = viewer.entities.add({
-            label: {
-                show: false,
-                showBackground: true,
-                font: '14px monospace',
-                horizontalOrigin: HorizontalOrigin.LEFT,
-                verticalOrigin: VerticalOrigin.TOP,
-                pixelOffset: new Cartesian2(15, 0),
-                disableDepthTestDistance: Number.POSITIVE_INFINITY // draws the label in front of terrain
-            }
-        });
-        let handler = new ScreenSpaceEventHandler(viewer.scene.canvas);
-        handler.setInputAction(function (movement) {
-            // Show lat, lon, height
-            let cartesian = viewer.scene.pickPosition(movement.endPosition);
-            let feature = viewer.scene.pick(movement.endPosition);
-             console.log(feature);
-            if (feature instanceof Cesium3DTileFeature) {
-                let propertyNames = feature.getPropertyNames();
-                let length = propertyNames.length;
-                for (let i = 0; i < length; ++i) {
-                    let propertyName = propertyNames[i];
-                    // console.log(propertyName + ': ' + feature.getProperty(propertyName));
-                }
-            }
+        // let entity = viewer.entities.add({
+        //     label: {
+        //         show: false,
+        //         showBackground: true,
+        //         font: '14px monospace',
+        //         horizontalOrigin: HorizontalOrigin.LEFT,
+        //         verticalOrigin: VerticalOrigin.TOP,
+        //         pixelOffset: new Cartesian2(15, 0),
+        //         disableDepthTestDistance: Number.POSITIVE_INFINITY // draws the label in front of terrain
+        //     }
+        // });
+        // let handler = new ScreenSpaceEventHandler(viewer.scene.canvas);
+        // handler.setInputAction(function (movement) {
+        //     tileset.style = new Cesium3DTileStyle({
+        //         color: {
+        //             conditions: [
+        //                 ['true', 'rgb(0, 0, 255)']
+        //             ]
+        //         }});
+        //     // Show lat, lon, height
+        //     let cartesian = viewer.scene.pickPosition(movement.endPosition);
+        //     let feature = viewer.scene.pick(movement.endPosition);
+        //     if (feature instanceof Cesium3DTileFeature) {
+        //         let propertyNames = feature.getPropertyNames();
+        //         let length = propertyNames.length;
+        //         for (let i = 0; i < length; ++i) {
+        //             let propertyName = propertyNames[i];
+        //             console.log(propertyName + ': ' + feature.getProperty(propertyName));
+        //         }
+        //     }
             // if (cartesian) {
             //     let cartographic = Cartographic.fromCartesian(cartesian);
             //     let longitudeString = Math.toDegrees(cartographic.longitude).toFixed(4);
@@ -196,9 +243,9 @@ class App extends React.Component {
             //         '\nLat: ' + ('   ' + latitudeString) + '\u00B0' +
             //         '\nAlt: ' + ('   ' + heightString) + 'm';
             // } else {
-                entity.label.show = false;
+            // entity.label.show = false;
             // }
-        }, ScreenSpaceEventType.MOUSE_MOVE);
+        // }, ScreenSpaceEventType.MOUSE_MOVE);
 
         viewer.zoomTo(tileset)
             .otherwise(function (error) {
