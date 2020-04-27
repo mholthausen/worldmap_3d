@@ -1,18 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types'
-
+import React from "react";
+import PropTypes from "prop-types";
 
 /**
  * Stellt das div für den Cesium-Globus bereit
  */
 class Globe extends React.PureComponent {
     render() {
-        const {
-            cesiumContainerId,
-        } = this.props;
+        const { cesiumContainerId } = this.props;
 
         return (
-            <React.Fragment >
+            <React.Fragment>
                 <div ref="cesiumContainer" id={cesiumContainerId}></div>
             </React.Fragment>
         );
