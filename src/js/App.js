@@ -1,7 +1,13 @@
 import React from "react";
 import Globe from "./Globe";
-// import Cesium from 'cesium/Cesium';
-import { Ion, Camera, Rectangle, Viewer } from "cesium";
+import {
+    Ion,
+    Camera,
+    Rectangle,
+    Viewer,
+    IonResource,
+    CesiumTerrainProvider
+} from "cesium";
 import { CesiumToken } from "../config/config";
 
 class App extends React.Component {
@@ -28,7 +34,11 @@ class App extends React.Component {
         Camera.DEFAULT_VIEW_RECTANGLE = extent;
         Camera.DEFAULT_VIEW_FACTOR = 0;
 
-        const viewer = new Viewer(cesiumContainerId, {});
+        const viewer = new Viewer(cesiumContainerId, {
+            terrainProvider: new CesiumTerrainProvider({
+                url: IonResource.fromAssetId(18022),
+            }),
+        });
 
         this.setState({
             viewer: viewer,
