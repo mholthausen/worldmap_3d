@@ -28,8 +28,14 @@
 
 The purpose of this application is a short demonstration of possibilities and a selection of applications in the 3D context.
 
-## Start
+## Start by npm
 
 Start the app with
 
 `npm install` followed by `npm run start`
+
+## Start by docker
+
+`docker build -t 3d_demo_client:[VERSION] .`  
+`docker run -p 8080:3000 [IMAGE ID]`  
+open [http://localhost:8080](http://localhost:8080)
