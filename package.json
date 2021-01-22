@@ -1,6 +1,6 @@
 {
   "name": "3d_demo_client",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "3D Cesium and babylonjs based client",
   "homepage": "https://mholthausen.github.io/3d_demo_client/",
   "main": "index.js",
