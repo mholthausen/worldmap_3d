@@ -59,7 +59,7 @@ class Photobox extends React.PureComponent {
     const { photoboxContainerId, displayPhotobox } = this.props;
 
     const pbClassName = `box stack-top ${
-        !displayPhotobox ? ' no-display' : ''
+      !displayPhotobox ? ' no-display' : ''
     }`;
 
     return (
