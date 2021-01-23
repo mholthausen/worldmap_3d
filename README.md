@@ -34,8 +34,8 @@ Start the app with
 
 `npm install` followed by `npm run start`
 
-## Start by docker
+## Start build by docker
 
 `docker build -t 3d_demo_client:[VERSION] .`  
-`docker run -p 8080:3000 [IMAGE ID]`  
+`docker run -p 8080:80 [IMAGE ID]`  
 open [http://localhost:8080](http://localhost:8080)
