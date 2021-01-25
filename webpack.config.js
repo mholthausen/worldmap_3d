@@ -94,23 +94,6 @@ const cesiumSource = 'node_modules/cesium';
     new webpack.DefinePlugin({
       CESIUM_BASE_URL: JSON.stringify('')
     }),
-    new TerserPlugin({
-      terserOptions: {
-        ecma: undefined,
-        warnings: false,
-        parse: {},
-        compress: {},
-        mangle: true, // Note `mangle.properties` is `false` by default.
-        module: false,
-        output: null,
-        toplevel: false,
-        nameCache: null,
-        ie8: false,
-        keep_classnames: undefined,
-        keep_fnames: false,
-        safari10: false
-      }
-    })
   ],
   devServer: {
     contentBase: path.join(__dirname, 'dist')
