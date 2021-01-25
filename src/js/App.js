@@ -14,13 +14,18 @@ import {
   ScreenSpaceEventType,
   Entity
 } from 'cesium';
-import { CesiumToken } from '../config/config';
+import {
+  cesiumToken,
+  viewerConfig,
+  wms_nw_dop,
+  czml_cgn_cathedral
+} from '../config/config';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
 
-    Ion.defaultAccessToken = CesiumToken;
+    Ion.defaultAccessToken = cesiumToken;
 
     this.state = {
       viewer: null,
@@ -30,96 +35,61 @@ class App extends React.Component {
     };
 
     this.togglePhotobox = this.togglePhotobox.bind(this);
+    this.loadOrthophoto = this.loadOrthophoto.bind(this);
+    this.openPhotoboxHandler = this.openPhotoboxHandler.bind(this);
   }
 
   componentDidMount() {
-    const { cesiumContainerId, displayPhotobox } = this.state;
-
+    const { cesiumContainerId } = this.state;
     const extent = Rectangle.fromDegrees(6.95222, 50.93508, 6.96479, 50.94738);
+    const dataSourcePromise = CzmlDataSource.load(czml_cgn_cathedral);
     Camera.DEFAULT_VIEW_RECTANGLE = extent;
     Camera.DEFAULT_VIEW_FACTOR = 0;
 
     // load DGM of Cologne city as terrain provider
+    console.log(viewerConfig);
     const viewer = new Viewer(cesiumContainerId, {
       terrainProvider: new CesiumTerrainProvider({
         url: IonResource.fromAssetId(18022)
       }),
-      geocoder: true,
-      skyAtmosphere: false,
-      shouldAnimate: false,
-      animation: true,
-      baseLayerPicker: false,
-      fullscreenButton: false,
-      homeButton: true,
-      infoBox: false,
-      sceneModePicker: true,
-      selectionIndicator: true,
-      navigationHelpButton: true,
-      imageryProvider: false,
-      skyBox: false
+      ...viewerConfig
     });
 
-    // load NRW orthophoto
-    const provider = new WebMapServiceImageryProvider({
-      url: 'https://www.wms.nrw.de/geobasis/wms_nw_dop',
-      layers: 'nw_dop_rgb',
-      parameters: {
-        format: 'image/png'
-      }
-    });
+    if(viewer) {
+      console.log(viewer);
+    }
 
-    viewer.imageryLayers.addImageryProvider(provider);
-
-    const czml = [
-      {
-        id: 'document',
-        name: 'Location of Photobox',
-        version: '1.0'
-      },
-      {
-        id: 'babylonIdCologneCathedral',
-        name: 'Cologne Cathedral',
-        position: {
-          cartographicDegrees: [6.9568, 50.941287, 105.0]
-        },
-        ellipsoid: {
-          radii: {
-            cartesian: [5.0, 5.0, 5.0]
-          },
-          fill: true,
-          material: {
-            solidColor: {
-              color: {
-                rgba: [255, 0, 0, 255]
-              }
-            }
-          }
-        }
-      }
-    ];
-
-    const dataSourcePromise = CzmlDataSource.load(czml);
+    viewer.imageryLayers.addImageryProvider(this.loadOrthophoto());
     viewer.dataSources.add(dataSourcePromise);
 
     if (viewer.scene) {
-      const handler = new ScreenSpaceEventHandler(viewer.scene.canvas);
-      handler.setInputAction((evtObj) => {
-        let picked = viewer.scene.pick(evtObj.position);
-        if (
-          picked.id &&
-          picked.id instanceof Entity &&
-          picked.id.id === 'babylonIdCologneCathedral'
-        ) {
-          this.setState({
-            displayPhotobox: !displayPhotobox
-          });
-        }
-      }, ScreenSpaceEventType.LEFT_CLICK);
+      this.openPhotoboxHandler(viewer.scene);
     }
 
     this.setState({
       viewer: viewer
     });
+  }
+
+  openPhotoboxHandler(scene) {
+    const { displayPhotobox } = this.state;
+    const handler = new ScreenSpaceEventHandler(scene.canvas);
+    handler.setInputAction((evtObj) => {
+      let picked = scene.pick(evtObj.position);
+      if (
+        picked.id &&
+        picked.id instanceof Entity &&
+        picked.id.id === 'babylonIdCologneCathedral'
+      ) {
+        this.setState({
+          displayPhotobox: !displayPhotobox
+        });
+      }
+    }, ScreenSpaceEventType.LEFT_CLICK);
+  }
+
+  loadOrthophoto() {
+    return new WebMapServiceImageryProvider(wms_nw_dop);
   }
 
   togglePhotobox() {

@@ -9,9 +9,15 @@ import myImage from '../img/dummy_CGN.jpg';
 class Photobox extends React.PureComponent {
   constructor(props) {
     super(props);
+
+    this.createBabylonScene = this.createBabylonScene.bind(this);
   }
 
   componentDidMount() {
+    this.createBabylonScene();
+  }
+
+  createBabylonScene() {
     const canvas = document.getElementById('renderCanvas');
     // Load the 3D engine
     const engine = new BABYLON.Engine(canvas, true, {
