@@ -47,17 +47,12 @@ class App extends React.Component {
     Camera.DEFAULT_VIEW_FACTOR = 0;
 
     // load DGM of Cologne city as terrain provider
-    console.log(viewerConfig);
     const viewer = new Viewer(cesiumContainerId, {
       terrainProvider: new CesiumTerrainProvider({
         url: IonResource.fromAssetId(18022)
       }),
       ...viewerConfig
     });
-
-    if(viewer) {
-      console.log(viewer);
-    }
 
     viewer.imageryLayers.addImageryProvider(this.loadOrthophoto());
     viewer.dataSources.add(dataSourcePromise);
