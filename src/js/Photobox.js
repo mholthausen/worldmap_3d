@@ -11,6 +11,7 @@ class Photobox extends React.PureComponent {
     super(props);
 
     this.createBabylonScene = this.createBabylonScene.bind(this);
+    this.getBabylonScene = this.getBabylonScene.bind(this);
   }
 
   componentDidMount() {
@@ -24,33 +25,8 @@ class Photobox extends React.PureComponent {
       preserveDrawingBuffer: true,
       stencil: true
     });
-    const createScene = function () {
-      const scene = new BABYLON.Scene(engine);
-      const camera = new BABYLON.ArcRotateCamera(
-        'Camera',
-        -Math.PI / 2,
-        Math.PI / 2,
-        5,
-        BABYLON.Vector3.Zero(),
-        scene
-      );
-      camera.attachControl(canvas, true);
-      camera.inputs.attached.mousewheel.detachControl(canvas);
+    const scene = this.getBabylonScene(engine, canvas);
 
-      var dome = new BABYLON.PhotoDome(
-        'testdome',
-        myImage,
-        {
-          resolution: 64,
-          size: 100
-        },
-        scene
-      );
-      dome.fovMultiplier = 2000;
-      return scene;
-    };
-    // call the createScene function
-    const scene = createScene();
     // run the render loop
     engine.runRenderLoop(function () {
       scene.render();
@@ -60,6 +36,32 @@ class Photobox extends React.PureComponent {
       engine.resize();
     });
   }
+
+  getBabylonScene (engine, canvas) {
+    const scene = new BABYLON.Scene(engine);
+    const camera = new BABYLON.ArcRotateCamera(
+      'Camera',
+      -Math.PI / 2,
+      Math.PI / 2,
+      5,
+      BABYLON.Vector3.Zero(),
+      scene
+    );
+    camera.attachControl(canvas, true);
+    camera.inputs.attached.mousewheel.detachControl(canvas);
+
+    var dome = new BABYLON.PhotoDome(
+      'testdome',
+      myImage,
+      {
+        resolution: 64,
+        size: 100
+      },
+      scene
+    );
+    dome.fovMultiplier = 2000;
+    return scene;
+  };
 
   render() {
     const { photoboxContainerId, displayPhotobox } = this.props;
