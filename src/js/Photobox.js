@@ -4,9 +4,14 @@ import * as BABYLON from 'babylonjs';
 import myImage from '../img/dummy_CGN.jpg';
 
 /**
- * Stellt das div für den Cesium-Globus bereit
+ * BabylonJS Overlay
  */
 class Photobox extends React.PureComponent {
+  /**
+   * The constructor
+   *
+   * @param {Object} props 
+   */
   constructor(props) {
     super(props);
 
@@ -14,10 +19,16 @@ class Photobox extends React.PureComponent {
     this.getBabylonScene = this.getBabylonScene.bind(this);
   }
 
+  /**
+   * Runs when the component did mount
+   */
   componentDidMount() {
     this.createBabylonScene();
   }
 
+  /**
+   * Creates the BabilonJS scene
+   */
   createBabylonScene() {
     const canvas = document.getElementById('renderCanvas');
     // Load the 3D engine
@@ -37,6 +48,12 @@ class Photobox extends React.PureComponent {
     });
   }
 
+  /**
+   * Sets the scene up for BabylonJS
+   *
+   * @param {Object} engine 
+   * @param {Object} canvas 
+   */
   getBabylonScene (engine, canvas) {
     const scene = new BABYLON.Scene(engine);
     const camera = new BABYLON.ArcRotateCamera(
@@ -61,10 +78,14 @@ class Photobox extends React.PureComponent {
     );
     dome.fovMultiplier = 2000;
     return scene;
-  };
+  }
 
+  /**
+   * The render method
+   */
   render() {
     const { photoboxContainerId, displayPhotobox } = this.props;
+    const photoboxContainer = 'photoboxContainer';
 
     const pbClassName = `box stack-top ${
       !displayPhotobox ? ' no-display' : ''
@@ -73,7 +94,7 @@ class Photobox extends React.PureComponent {
     return (
       <React.Fragment>
         <div
-          ref="photoboxContainer"
+          ref={photoboxContainer}
           id={photoboxContainerId}
           className={pbClassName}
         >

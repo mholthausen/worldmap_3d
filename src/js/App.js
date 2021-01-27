@@ -21,7 +21,15 @@ import {
   czml_cgn_cathedral
 } from '../config/config';
 
+/**
+ * Bundles the App
+ */
 class App extends React.Component {
+  /**
+   * The constructor
+   *
+   * @param {Object} props 
+   */
   constructor(props) {
     super(props);
 
@@ -39,6 +47,9 @@ class App extends React.Component {
     this.openPhotoboxHandler = this.openPhotoboxHandler.bind(this);
   }
 
+  /**
+   * Runs when the component did mount
+   */
   componentDidMount() {
     const { cesiumContainerId } = this.state;
     const extent = Rectangle.fromDegrees(6.95222, 50.93508, 6.96479, 50.94738);
@@ -66,6 +77,11 @@ class App extends React.Component {
     });
   }
 
+  /**
+   * Sets up the left click event handler
+   *
+   * @param {Object} scene 
+   */
   openPhotoboxHandler(scene) {
     const { displayPhotobox } = this.state;
     const handler = new ScreenSpaceEventHandler(scene.canvas);
@@ -83,10 +99,16 @@ class App extends React.Component {
     }, ScreenSpaceEventType.LEFT_CLICK);
   }
 
+  /**
+   * Returns the DOP WMS of NRW
+   */
   loadOrthophoto() {
     return new WebMapServiceImageryProvider(wms_nw_dop);
   }
 
+  /**
+   * Controls the overlay
+   */
   togglePhotobox() {
     const { displayPhotobox } = this.state;
 
@@ -95,6 +117,9 @@ class App extends React.Component {
     });
   }
 
+  /**
+   * The render method
+   */
   render() {
     const {
       cesiumContainerId,

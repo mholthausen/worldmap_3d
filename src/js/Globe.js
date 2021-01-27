@@ -5,12 +5,16 @@ import PropTypes from 'prop-types';
  * Stellt das div für den Cesium-Globus bereit
  */
 class Globe extends React.PureComponent {
+  /**
+   * The render method
+   */
   render() {
     const { cesiumContainerId } = this.props;
+    const cesiumContainer = 'cesiumContainer';
 
     return (
       <React.Fragment>
-        <div ref="cesiumContainer" id={cesiumContainerId} className="box"></div>
+        <div ref={cesiumContainer} id={cesiumContainerId} className="box"></div>
       </React.Fragment>
     );
   }
