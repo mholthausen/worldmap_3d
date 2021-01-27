@@ -87,6 +87,10 @@ const cesiumSource = 'node_modules/cesium';
         {
           from: path.join(cesiumSource, 'Build/Cesium/Widgets'),
           to: 'Widgets'
+        },
+        {
+          from: 'src/img/favicon_io',
+          to: 'img/favicon_io'
         }
       ]
     }),
