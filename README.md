@@ -8,19 +8,19 @@
 
 ## Requirements
 
--   [x] Setting up the Node.Js (14.15.4 LTS) and React.Js (^17.0.1) environment
+- [x] Setting up the Node.Js (14.15.4 LTS) and React.Js (^17.0.1) environment
 
--   [x] Integration of the latest version of the [CesiumJS](https://cesiumjs.org/) framework at the time of development (Version 1.77)
+- [x] Integration of the latest version of the [CesiumJS](https://cesiumjs.org/) framework at the time of development (Version 1.77)
 
--   [x] Loading the 3D city model of Cologne, Germany as [CesiumTerrainProvider](https://cesium.com/docs/cesiumjs-ref-doc/CesiumTerrainProvider.html)
+- [x] Loading the 3D city model of Cologne, Germany as [CesiumTerrainProvider](https://cesium.com/docs/cesiumjs-ref-doc/CesiumTerrainProvider.html)
 
--   [x] Zoom to Cologne Cathedral after startup
+- [x] Zoom to Cologne Cathedral after startup
 
--   [ ] Provide a selection of different tools (have to be defined in detail)
+- [ ] Provide a selection of different tools (have to be defined in detail)
 
--   [x] When clicking the red dot near Cologne Cathedral, the CesiumJS Viewer is overlaid ( with [BabyolnJS](https://www.babylonjs.com/)) to show an exterior view of the entrance area
+- [x] When clicking the red dot near Cologne Cathedral, the CesiumJS Viewer is overlaid ( with [BabyolnJS](https://www.babylonjs.com/)) to show an exterior view of the entrance area
 
--   [ ] Release the application on [demo.terrestris.de](https://demo.terrestris.de/)
+- [ ] Release the application on [demo.terrestris.de](https://demo.terrestris.de/)
 
 **Note:** Further requirements may arise in the course of the project and will be added to this list.
 

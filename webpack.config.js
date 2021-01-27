@@ -23,7 +23,10 @@ const cesiumSource = 'node_modules/cesium';
     __dirname: false
   },
   resolve: {
-    mainFields: ['module', 'main']
+    mainFields: ['module', 'main'],
+    alias: {
+      cesium: path.resolve(__dirname, cesiumSource)
+    }
   },
   module: {
     // unknownContextCritical: false,
@@ -96,34 +99,29 @@ const cesiumSource = 'node_modules/cesium';
     }),
     new webpack.DefinePlugin({
       CESIUM_BASE_URL: JSON.stringify('')
-    }),
+    })
   ],
   devServer: {
     contentBase: path.join(__dirname, 'dist')
-  },
-  resolve: {
-    alias: {
-      cesium: path.resolve(__dirname, cesiumSource)
-    }
   }
 }),
-  (module.rules = {
-    rules: [
-      {
-        // Strip cesium pragmas
-        test: /\.js$/,
-        enforce: 'pre',
-        include: path.resolve(__dirname, cesiumSource),
-        use: [
-          {
-            loader: 'strip-pragma-loader',
-            options: {
-              pragmas: {
-                debug: false
-              }
+(module.rules = {
+  rules: [
+    {
+      // Strip cesium pragmas
+      test: /\.js$/,
+      enforce: 'pre',
+      include: path.resolve(__dirname, cesiumSource),
+      use: [
+        {
+          loader: 'strip-pragma-loader',
+          options: {
+            pragmas: {
+              debug: false
             }
           }
-        ]
-      }
-    ]
-  });
+        }
+      ]
+    }
+  ]
+});

@@ -19,7 +19,7 @@ import {
   viewerConfig,
   wms_nw_dop,
   czml_cgn_cathedral
-} from '../config/config';
+} from '../config';
 
 /**
  * Bundles the App

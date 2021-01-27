@@ -6,6 +6,10 @@ export const cesiumToken =
   'WNjZi0xZGIzZGRiMDhjMTkiLCJpZCI6NDMwMCwic2NvcGVzIjpbImFzciIsImdjIl0sImlhdCI' +
   '6MTU2OTQ4ODEwNH0.vlHoIIaINsSQC4nlYqFbzTOBLIRxOXjz1T2oPcwI7-o';
 
+export const customer = {
+  title: 'WorldMap 3D'
+};
+
 export const viewerConfig = {
   geocoder: true,
   skyAtmosphere: false,

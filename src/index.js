@@ -6,4 +6,13 @@ import './css/main.css';
 
 import App from './js/App';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import { customer } from './config';
+
+document.title = customer.title;
+
+ReactDOM.render(
+  <React.Suspense fallback={<div>Loading...</div>}>
+    <App />
+  </React.Suspense>,
+  document.getElementById('root')
+);
