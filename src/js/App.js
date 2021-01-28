@@ -88,6 +88,7 @@ class App extends React.Component {
     handler.setInputAction((evtObj) => {
       let picked = scene.pick(evtObj.position);
       if (
+        picked &&
         picked.id &&
         picked.id instanceof Entity &&
         picked.id.id === 'babylonIdCologneCathedral'
