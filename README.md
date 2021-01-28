@@ -1,10 +1,10 @@
 # CesiumJS 3D Demo-Client
 
-[![Build Status](https://travis-ci.com/mholthausen/3d_demo_client.svg?branch=master)](https://travis-ci.com/mholthausen/3d_demo_client)
-[![Known Vulnerabilities](https://snyk.io/test/github/mholthausen/3d_demo_client/badge.svg?targetFile=package.json)](https://snyk.io/test/github/mholthausen/3d_demo_client?targetFile=package.json)
-[![Maintainability](https://api.codeclimate.com/v1/badges/104d45c34d81fac02423/maintainability)](https://codeclimate.com/github/mholthausen/3d_demo_client/maintainability)
-[![Dependencies Status](https://david-dm.org/mholthausen/3d_demo_client.svg)](https://david-dm.org/mholthausen/3d_demo_client)
-[![devDependencies Status](https://david-dm.org/mholthausen/3d_demo_client/dev-status.svg)](https://david-dm.org/mholthausen/3d_demo_client?type=dev)
+[![Build Status](https://github.com/mholthausen/worldmap_3d/workflows/Build%20and%20Deploy/badge.svg)](https://github.com/mholthausen/worldmap_3d/actions?query=workflow%3A%22Build+and+Deploy%22)
+[![Known Vulnerabilities](https://snyk.io/test/github/mholthausen/worldmap_3d/badge.svg?targetFile=package.json)](https://snyk.io/test/github/mholthausen/worldmap_3d?targetFile=package.json)
+[![Maintainability](https://api.codeclimate.com/v1/badges/104d45c34d81fac02423/maintainability)](https://codeclimate.com/github/mholthausen/worldmap_3d/maintainability)
+[![Dependencies Status](https://david-dm.org/mholthausen/worldmap_3d.svg)](https://david-dm.org/mholthausen/worldmap_3d)
+[![devDependencies Status](https://david-dm.org/mholthausen/worldmap_3d/dev-status.svg)](https://david-dm.org/mholthausen/worldmap_3d?type=dev)
 
 ## Requirements
 
@@ -36,6 +36,6 @@ Start the app with
 
 ## Start build by docker
 
-`docker build -t 3d_demo_client:[VERSION] .`  
+`docker build -t worldmap_3d:[VERSION] .`  
 `docker run -p 8080:80 [IMAGE ID]`  
 open [http://localhost:8080](http://localhost:8080)

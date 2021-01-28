@@ -1,8 +1,8 @@
 {
-  "name": "3d_demo_client",
+  "name": "worldmap_3d",
   "version": "0.1.1",
   "description": "3D Cesium and babylonjs based client",
-  "homepage": "https://mholthausen.github.io/3d_demo_client/",
+  "homepage": "https://mholthausen.github.io/worldmap_3d/",
   "main": "index.js",
   "scripts": {
     "test": "npm run lint",
@@ -12,13 +12,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mholthausen/3d_demo_client.git"
+    "url": "git+https://github.com/mholthausen/worldmap_3d.git"
   },
   "keywords": [],
   "author": "Michael Holthausen <holthausen@terrestris.de>",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/mholthausen/3d_demo_client/issues"
+    "url": "https://github.com/mholthausen/worldmap_3d/issues"
   },
   "devDependencies": {
     "@babel/core": "^7.8.3",
