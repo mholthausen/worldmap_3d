@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as BABYLON from 'babylonjs';
-import myImage from '../img/dummy_CGN.jpg';
+import myImage from '../img/dummy_CGN.png';
 
 /**
  * BabylonJS Overlay

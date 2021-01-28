@@ -5,7 +5,6 @@ export const cesiumToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIw' +
 'Mzg3NGI3NC01ZGYzLTRmYzMtYTkzZS00ZjM0NTczYmY5NjciLCJpZCI6MjMwOTgsInNjb3BlcyI6' +
 'WyJhc3IiLCJnYyJdLCJpYXQiOjE1ODI3MjQzNDN9.P-EMnYp2aNjz2S6v5MQIWK0FiIBNlOCRhJe' +
 'T-U5e84I';
-;
 
 export const customer = {
   title: 'WorldMap 3D'
