@@ -60,7 +60,7 @@ class App extends React.Component {
     // load DGM of Cologne city as terrain provider
     const viewer = new Viewer(cesiumContainerId, {
       terrainProvider: new CesiumTerrainProvider({
-        url: IonResource.fromAssetId(18022)
+        url: IonResource.fromAssetId(273803)
       }),
       ...viewerConfig
     });
