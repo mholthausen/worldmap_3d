@@ -15,7 +15,7 @@ export const viewerConfig = {
   skyAtmosphere: false,
   shouldAnimate: false,
   animation: true,
-  baseLayerPicker: false,
+  baseLayerPicker: true,
   fullscreenButton: false,
   homeButton: true,
   infoBox: false,
