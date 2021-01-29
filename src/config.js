@@ -30,7 +30,8 @@ export const wms_nw_dop = {
   url: 'https://www.wms.nrw.de/geobasis/wms_nw_dop',
   layers: 'nw_dop_rgb',
   parameters: {
-    format: 'image/png'
+    format: 'image/png',
+    transparent: 'true'
   }
 };
 
@@ -44,13 +45,12 @@ export const czml_cgn_cathedral = [
     id: 'babylonIdCologneCathedral',
     name: 'Cologne Cathedral',
     position: {
-      cartographicDegrees: [6.9568, 50.941287, 105.0]
+      cartographicDegrees: [6.95798, 50.940679, 58]
     },
     ellipsoid: {
       radii: {
         cartesian: [5.0, 5.0, 5.0]
       },
-      fill: true,
       material: {
         solidColor: {
           color: {
