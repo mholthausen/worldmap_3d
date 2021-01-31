@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as BABYLON from 'babylonjs';
-import myImage from '../img/dummy_CGN.png';
+import myImage from '../img/dom_sued.jpeg';
 
 /**
  * BabylonJS Overlay
@@ -10,34 +10,35 @@ class Photobox extends React.PureComponent {
   /**
    * The constructor
    *
-   * @param {Object} props 
+   * @param {Object} props
    */
   constructor(props) {
     super(props);
 
     this.createBabylonScene = this.createBabylonScene.bind(this);
-    this.getBabylonScene = this.getBabylonScene.bind(this);
+    this.setupBabylonScene = this.setupBabylonScene.bind(this);
   }
 
   /**
    * Runs when the component did mount
    */
   componentDidMount() {
-    this.createBabylonScene();
+    this.setupBabylonScene();
   }
 
   /**
    * Creates the BabilonJS scene
    */
-  createBabylonScene() {
+  setupBabylonScene() {
     const canvas = document.getElementById('renderCanvas');
     // Load the 3D engine
     const engine = new BABYLON.Engine(canvas, true, {
       preserveDrawingBuffer: true,
       stencil: true
     });
-    const scene = this.getBabylonScene(engine, canvas);
 
+    // call the createScene function
+    const scene = this.createBabylonScene();
     // run the render loop
     engine.runRenderLoop(function () {
       scene.render();
@@ -51,10 +52,10 @@ class Photobox extends React.PureComponent {
   /**
    * Sets the scene up for BabylonJS
    *
-   * @param {Object} engine 
-   * @param {Object} canvas 
+   * @param {Object} engine
+   * @param {Object} canvas
    */
-  getBabylonScene (engine, canvas) {
+  createBabylonScene(engine, canvas) {
     const scene = new BABYLON.Scene(engine);
     const camera = new BABYLON.ArcRotateCamera(
       'Camera',
@@ -67,7 +68,7 @@ class Photobox extends React.PureComponent {
     camera.attachControl(canvas, true);
     camera.inputs.attached.mousewheel.detachControl(canvas);
 
-    var dome = new BABYLON.PhotoDome(
+    const dome = new BABYLON.PhotoDome(
       'testdome',
       myImage,
       {
