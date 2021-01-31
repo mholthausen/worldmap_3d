@@ -39,7 +39,7 @@ class App extends React.Component {
       viewer: null,
       cesiumContainerId: 'cesiumContainer',
       photoboxContainerId: 'photoboxContainer',
-      displayPhotobox: false
+      displayPhotobox: true
     };
 
     this.togglePhotobox = this.togglePhotobox.bind(this);
@@ -73,7 +73,8 @@ class App extends React.Component {
     }
 
     this.setState({
-      viewer: viewer
+      viewer: viewer,
+      displayPhotobox: false
     });
   }
 
@@ -83,7 +84,6 @@ class App extends React.Component {
    * @param {Object} scene 
    */
   openPhotoboxHandler(scene) {
-    const { displayPhotobox } = this.state;
     const handler = new ScreenSpaceEventHandler(scene.canvas);
     handler.setInputAction((evtObj) => {
       let picked = scene.pick(evtObj.position);
@@ -94,7 +94,7 @@ class App extends React.Component {
         picked.id.id === 'babylonIdCologneCathedral'
       ) {
         this.setState({
-          displayPhotobox: !displayPhotobox
+          displayPhotobox: true
         });
       }
     }, ScreenSpaceEventType.LEFT_CLICK);
