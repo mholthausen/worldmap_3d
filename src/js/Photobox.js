@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import * as BABYLON from 'babylonjs';
 import myImage from '../img/dom_sued.jpeg';
@@ -6,30 +6,15 @@ import myImage from '../img/dom_sued.jpeg';
 /**
  * BabylonJS Overlay
  */
-class Photobox extends React.PureComponent {
-  /**
-   * The constructor
-   *
-   * @param {Object} props
-   */
-  constructor(props) {
-    super(props);
-
-    this.createBabylonScene = this.createBabylonScene.bind(this);
-    this.setupBabylonScene = this.setupBabylonScene.bind(this);
-  }
-
-  /**
-   * Runs when the component did mount
-   */
-  componentDidMount() {
-    this.setupBabylonScene();
-  }
+function Photobox(props) {
+  useEffect(() => {
+    setupBabylonScene();
+  }, []);
 
   /**
    * Creates the BabilonJS scene
    */
-  setupBabylonScene() {
+  const setupBabylonScene = () => {
     const canvas = document.getElementById('renderCanvas');
     // Load the 3D engine
     const engine = new BABYLON.Engine(canvas, true, {
@@ -38,7 +23,7 @@ class Photobox extends React.PureComponent {
     });
 
     // call the createScene function
-    const scene = this.createBabylonScene();
+    const scene = createBabylonScene();
     // run the render loop
     engine.runRenderLoop(function () {
       scene.render();
@@ -47,7 +32,7 @@ class Photobox extends React.PureComponent {
     window.addEventListener('resize', function () {
       engine.resize();
     });
-  }
+  };
 
   /**
    * Sets the scene up for BabylonJS
@@ -55,7 +40,7 @@ class Photobox extends React.PureComponent {
    * @param {Object} engine
    * @param {Object} canvas
    */
-  createBabylonScene(engine, canvas) {
+  const createBabylonScene = (engine, canvas) => {
     const scene = new BABYLON.Scene(engine);
     const camera = new BABYLON.ArcRotateCamera(
       'Camera',
@@ -79,32 +64,24 @@ class Photobox extends React.PureComponent {
     );
     dome.fovMultiplier = 2000;
     return scene;
-  }
+  };
 
-  /**
-   * The render method
-   */
-  render() {
-    const { photoboxContainerId, displayPhotobox } = this.props;
-    const photoboxContainer = 'photoboxContainer';
+  const { photoboxContainerId, displayPhotobox } = props;
+  const pbClassName = `box stack-top ${!displayPhotobox ? ' no-display' : ''}`;
+  const photoboxContainer = useRef('photoboxContainer');
 
-    const pbClassName = `box stack-top ${
-      !displayPhotobox ? ' no-display' : ''
-    }`;
-
-    return (
-      <React.Fragment>
-        <div
-          ref={photoboxContainer}
-          id={photoboxContainerId}
-          className={pbClassName}
-        >
-          <noscript>You need to enable JavaScript to run this app.</noscript>
-          <canvas id="renderCanvas"></canvas>
-        </div>
-      </React.Fragment>
-    );
-  }
+  return (
+    <React.Fragment>
+      <div
+        ref={photoboxContainer}
+        id={photoboxContainerId}
+        className={pbClassName}
+      >
+        <noscript>You need to enable JavaScript to run this app.</noscript>
+        <canvas id="renderCanvas"></canvas>
+      </div>
+    </React.Fragment>
+  );
 }
 
 Photobox.propTypes = {
