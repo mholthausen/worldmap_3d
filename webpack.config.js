@@ -92,8 +92,8 @@ const cesiumSource = 'node_modules/cesium';
           to: 'Widgets'
         },
         {
-          from: 'src/img/favicon_io',
-          to: 'img/favicon_io'
+          from: 'src/img',
+          to: 'img/'
         }
       ]
     }),

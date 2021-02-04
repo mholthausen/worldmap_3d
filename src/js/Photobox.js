@@ -1,35 +1,26 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import * as BABYLON from 'babylonjs';
-import myImage from '../img/dom_sued.jpeg';
+import { show } from './store/showPhotobox';
+import {
+  imageFile
+} from '../config';
 
 /**
  * BabylonJS Overlay
  */
-class Photobox extends React.PureComponent {
-  /**
-   * The constructor
-   *
-   * @param {Object} props
-   */
-  constructor(props) {
-    super(props);
-
-    this.createBabylonScene = this.createBabylonScene.bind(this);
-    this.setupBabylonScene = this.setupBabylonScene.bind(this);
-  }
-
-  /**
-   * Runs when the component did mount
-   */
-  componentDidMount() {
-    this.setupBabylonScene();
-  }
+function Photobox(props) {
+  const dispatch = useDispatch();
+  const { showPhotobox } = useSelector((state) => state.showPhotobox);
+  useEffect(() => {
+    setupBabylonScene();
+  }, []);
 
   /**
    * Creates the BabilonJS scene
    */
-  setupBabylonScene() {
+  const setupBabylonScene = () => {
     const canvas = document.getElementById('renderCanvas');
     // Load the 3D engine
     const engine = new BABYLON.Engine(canvas, true, {
@@ -38,7 +29,7 @@ class Photobox extends React.PureComponent {
     });
 
     // call the createScene function
-    const scene = this.createBabylonScene();
+    const scene = createBabylonScene();
     // run the render loop
     engine.runRenderLoop(function () {
       scene.render();
@@ -47,7 +38,7 @@ class Photobox extends React.PureComponent {
     window.addEventListener('resize', function () {
       engine.resize();
     });
-  }
+  };
 
   /**
    * Sets the scene up for BabylonJS
@@ -55,7 +46,7 @@ class Photobox extends React.PureComponent {
    * @param {Object} engine
    * @param {Object} canvas
    */
-  createBabylonScene(engine, canvas) {
+  const createBabylonScene = (engine, canvas) => {
     const scene = new BABYLON.Scene(engine);
     const camera = new BABYLON.ArcRotateCamera(
       'Camera',
@@ -68,49 +59,52 @@ class Photobox extends React.PureComponent {
     camera.attachControl(canvas, true);
     camera.inputs.attached.mousewheel.detachControl(canvas);
 
-    const dome = new BABYLON.PhotoDome(
+    new BABYLON.PhotoDome(
       'testdome',
-      myImage,
+      imageFile.source,
       {
-        resolution: 64,
-        size: 100
+        resolution: 128,
+        size: 100,
+        useDirectMapping: true
       },
       scene
     );
-    dome.fovMultiplier = 2000;
     return scene;
-  }
+  };
 
   /**
-   * The render method
+   * Controls the overlay
    */
-  render() {
-    const { photoboxContainerId, displayPhotobox } = this.props;
-    const photoboxContainer = 'photoboxContainer';
+  const togglePhotobox = () => {
+    dispatch(show(!showPhotobox));
+  };
 
-    const pbClassName = `box stack-top ${
-      !displayPhotobox ? ' no-display' : ''
-    }`;
+  const { photoboxContainerId } = props;
+  const pbClassName = `box stack-top ${!showPhotobox ? ' no-display' : ''}`;
+  const photoboxContainer = useRef('photoboxContainer');
 
-    return (
-      <React.Fragment>
-        <div
-          ref={photoboxContainer}
-          id={photoboxContainerId}
-          className={pbClassName}
-        >
-          <noscript>You need to enable JavaScript to run this app.</noscript>
-          <canvas id="renderCanvas"></canvas>
+  return (
+    <React.Fragment>
+      <div id="mdiv" className={pbClassName} onClick={togglePhotobox}>
+        <div className="mdiv">
+          <div className="md"></div>
         </div>
-      </React.Fragment>
-    );
-  }
+      </div>
+      <div
+        ref={photoboxContainer}
+        id={photoboxContainerId}
+        className={pbClassName}
+      >
+        <noscript>You need to enable JavaScript to run this app.</noscript>
+        <canvas id="renderCanvas"></canvas>
+      </div>
+    </React.Fragment>
+  );
 }
 
 Photobox.propTypes = {
   viewer: PropTypes.object,
-  photoboxContainerId: PropTypes.string,
-  displayPhotobox: PropTypes.bool
+  photoboxContainerId: PropTypes.string
 };
 
 export default Photobox;

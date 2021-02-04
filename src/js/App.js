@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import Globe from './Globe';
 import Photobox from './Photobox';
 import {
@@ -20,38 +21,23 @@ import {
   wms_nw_dop,
   czml_cgn_cathedral
 } from '../config';
+import { show } from './store/showPhotobox';
 
 /**
  * Bundles the App
  */
-class App extends React.Component {
-  /**
-   * The constructor
-   *
-   * @param {Object} props 
-   */
-  constructor(props) {
-    super(props);
+function App() {
+  const dispatch = useDispatch();
+  Ion.defaultAccessToken = cesiumToken;
 
-    Ion.defaultAccessToken = cesiumToken;
-
-    this.state = {
-      viewer: null,
-      cesiumContainerId: 'cesiumContainer',
-      photoboxContainerId: 'photoboxContainer',
-      displayPhotobox: true
-    };
-
-    this.togglePhotobox = this.togglePhotobox.bind(this);
-    this.loadOrthophoto = this.loadOrthophoto.bind(this);
-    this.openPhotoboxHandler = this.openPhotoboxHandler.bind(this);
-  }
+  const [viewer, setViewer] = useState(null);
+  const [cesiumContainerId] = useState('cesiumContainer');
+  const [photoboxContainerId] = useState('photoboxContainer');
 
   /**
    * Runs when the component did mount
    */
-  componentDidMount() {
-    const { cesiumContainerId } = this.state;
+  useEffect(() => {
     const extent = Rectangle.fromDegrees(6.95222, 50.93508, 6.96479, 50.94738);
     const dataSourcePromise = CzmlDataSource.load(czml_cgn_cathedral);
     Camera.DEFAULT_VIEW_RECTANGLE = extent;
@@ -65,25 +51,23 @@ class App extends React.Component {
       ...viewerConfig
     });
 
-    viewer.imageryLayers.addImageryProvider(this.loadOrthophoto());
+    viewer.imageryLayers.addImageryProvider(loadOrthophoto());
     viewer.dataSources.add(dataSourcePromise);
 
     if (viewer.scene) {
-      this.openPhotoboxHandler(viewer.scene);
+      openPhotoboxHandler(viewer.scene);
     }
 
-    this.setState({
-      viewer: viewer,
-      displayPhotobox: false
-    });
-  }
+    setViewer(viewer);
+    dispatch(show(false));
+  }, []);
 
   /**
    * Sets up the left click event handler
    *
-   * @param {Object} scene 
+   * @param {Object} scene
    */
-  openPhotoboxHandler(scene) {
+  const openPhotoboxHandler = (scene) => {
     const handler = new ScreenSpaceEventHandler(scene.canvas);
     handler.setInputAction((evtObj) => {
       let picked = scene.pick(evtObj.position);
@@ -93,60 +77,24 @@ class App extends React.Component {
         picked.id instanceof Entity &&
         picked.id.id === 'babylonIdCologneCathedral'
       ) {
-        this.setState({
-          displayPhotobox: true
-        });
+        dispatch(show(true));
       }
     }, ScreenSpaceEventType.LEFT_CLICK);
-  }
+  };
 
   /**
    * Returns the DOP WMS of NRW
    */
-  loadOrthophoto() {
+  const loadOrthophoto = () => {
     return new WebMapServiceImageryProvider(wms_nw_dop);
-  }
+  };
 
-  /**
-   * Controls the overlay
-   */
-  togglePhotobox() {
-    const { displayPhotobox } = this.state;
-
-    this.setState({
-      displayPhotobox: !displayPhotobox
-    });
-  }
-
-  /**
-   * The render method
-   */
-  render() {
-    const {
-      cesiumContainerId,
-      photoboxContainerId,
-      displayPhotobox,
-      viewer
-    } = this.state;
-
-    const pbClassName = `${!displayPhotobox ? ' no-display' : ''}`;
-
-    return (
-      <React.Fragment>
-        <Globe cesiumContainerId={cesiumContainerId} viewer={viewer} />
-        <div id="mdiv" className={pbClassName} onClick={this.togglePhotobox}>
-          <div className="mdiv">
-            <div className="md"></div>
-          </div>
-        </div>
-        <Photobox
-          photoboxContainerId={photoboxContainerId}
-          viewer={viewer}
-          displayPhotobox={displayPhotobox}
-        />
-      </React.Fragment>
-    );
-  }
+  return (
+    <React.Fragment>
+      <Globe cesiumContainerId={cesiumContainerId} viewer={viewer} />
+      <Photobox photoboxContainerId={photoboxContainerId} viewer={viewer} />
+    </React.Fragment>
+  );
 }
 
 export default App;
