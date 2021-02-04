@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
-import photobox from './photobox';
+import showPhotobox from './showPhotobox';
 
 const reducer = combineReducers({
-  photobox
+  showPhotobox
 });
 const store = configureStore({
   reducer

@@ -2,13 +2,13 @@ import { createSlice } from '@reduxjs/toolkit';
 
 // Slice
 const slice = createSlice({
-  name: 'photobox',
+  name: 'showPhotobox',
   initialState: {
-    photobox: true
+    showPhotobox: true
   },
   reducers: {
     showPhotobox: (state, action) => {
-      state.photobox = action.payload;
+      state.showPhotobox = action.payload;
     }
   }
 });

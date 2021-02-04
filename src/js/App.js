@@ -21,22 +21,19 @@ import {
   wms_nw_dop,
   czml_cgn_cathedral
 } from '../config';
-import { show } from './store/photobox';
+import { show } from './store/showPhotobox';
 
 /**
  * Bundles the App
  */
 function App() {
   const dispatch = useDispatch();
-  const { photobox } = useSelector((state) => state.photobox);
+  const { showPhotobox } = useSelector((state) => state.showPhotobox);
   Ion.defaultAccessToken = cesiumToken;
 
   const [viewer, setViewer] = useState(null);
-  const [cesiumContainerId, setCesiumContainerId] = useState('cesiumContainer');
-  const [photoboxContainerId, setPhotoboxContainerId] = useState(
-    'photoboxContainer'
-  );
-  // const [displayPhotobox, setDisplayPhotobox] = useState(true);
+  const [cesiumContainerId] = useState('cesiumContainer');
+  const [photoboxContainerId] = useState('photoboxContainer');
 
   /**
    * Runs when the component did mount
@@ -63,7 +60,6 @@ function App() {
     }
 
     setViewer(viewer);
-    // setDisplayPhotobox(false);
     dispatch(show(false));
   }, []);
 
@@ -82,10 +78,7 @@ function App() {
         picked.id instanceof Entity &&
         picked.id.id === 'babylonIdCologneCathedral'
       ) {
-        // setDisplayPhotobox(true);
         dispatch(show(true));
-        // TODO: photobox.state is undefined
-        console.log(photobox.state);
       }
     }, ScreenSpaceEventType.LEFT_CLICK);
   };
@@ -101,13 +94,10 @@ function App() {
    * Controls the overlay
    */
   const togglePhotobox = () => {
-    // setDisplayPhotobox(!displayPhotobox);
-    dispatch(show(!photobox.state));
+    dispatch(show(!showPhotobox));
   };
 
-  const pbClassName = `${
-    !photobox.state ? ' no-display' : ''
-  }`;
+  const pbClassName = `${!showPhotobox ? ' no-display' : ''}`;
 
   return (
     <React.Fragment>
@@ -120,7 +110,6 @@ function App() {
       <Photobox
         photoboxContainerId={photoboxContainerId}
         viewer={viewer}
-        displayPhotobox={photobox.state}
       />
     </React.Fragment>
   );

@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import * as BABYLON from 'babylonjs';
 import myImage from '../img/dom_sued.jpeg';
@@ -7,6 +8,7 @@ import myImage from '../img/dom_sued.jpeg';
  * BabylonJS Overlay
  */
 function Photobox(props) {
+  const { showPhotobox } = useSelector((state) => state.showPhotobox);
   useEffect(() => {
     setupBabylonScene();
   }, []);
@@ -66,8 +68,8 @@ function Photobox(props) {
     return scene;
   };
 
-  const { photoboxContainerId, displayPhotobox } = props;
-  const pbClassName = `box stack-top ${!displayPhotobox ? ' no-display' : ''}`;
+  const { photoboxContainerId } = props;
+  const pbClassName = `box stack-top ${!showPhotobox ? ' no-display' : ''}`;
   const photoboxContainer = useRef('photoboxContainer');
 
   return (
@@ -86,8 +88,7 @@ function Photobox(props) {
 
 Photobox.propTypes = {
   viewer: PropTypes.object,
-  photoboxContainerId: PropTypes.string,
-  displayPhotobox: PropTypes.bool
+  photoboxContainerId: PropTypes.string
 };
 
 export default Photobox;
