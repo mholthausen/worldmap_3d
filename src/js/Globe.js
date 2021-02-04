@@ -1,18 +1,22 @@
 import React, { useRef } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+
 
 /**
  * Provides the div for the Cesium globe
  */
 function Globe(props) {
   const cesiumContainer = useRef('cesiumContainer');
+  const { showPhotobox } = useSelector((state) => state.showPhotobox);
+  const pbClassName = `box${showPhotobox ? ' no-display' : ''}`;
 
   return (
     <React.Fragment>
       <div
         ref={cesiumContainer}
         id={props.cesiumContainerId}
-        className="box"
+        className={pbClassName}
       ></div>
     </React.Fragment>
   );

@@ -1,13 +1,17 @@
 import React, { useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import * as BABYLON from 'babylonjs';
-import myImage from '../img/dom_sued.jpeg';
+import { show } from './store/showPhotobox';
+import {
+  imageFile
+} from '../config';
 
 /**
  * BabylonJS Overlay
  */
 function Photobox(props) {
+  const dispatch = useDispatch();
   const { showPhotobox } = useSelector((state) => state.showPhotobox);
   useEffect(() => {
     setupBabylonScene();
@@ -55,17 +59,24 @@ function Photobox(props) {
     camera.attachControl(canvas, true);
     camera.inputs.attached.mousewheel.detachControl(canvas);
 
-    const dome = new BABYLON.PhotoDome(
+    new BABYLON.PhotoDome(
       'testdome',
-      myImage,
+      imageFile.source,
       {
-        resolution: 64,
-        size: 100
+        resolution: 128,
+        size: 100,
+        useDirectMapping: true
       },
       scene
     );
-    dome.fovMultiplier = 2000;
     return scene;
+  };
+
+  /**
+   * Controls the overlay
+   */
+  const togglePhotobox = () => {
+    dispatch(show(!showPhotobox));
   };
 
   const { photoboxContainerId } = props;
@@ -74,6 +85,11 @@ function Photobox(props) {
 
   return (
     <React.Fragment>
+      <div id="mdiv" className={pbClassName} onClick={togglePhotobox}>
+        <div className="mdiv">
+          <div className="md"></div>
+        </div>
+      </div>
       <div
         ref={photoboxContainer}
         id={photoboxContainerId}

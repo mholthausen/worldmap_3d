@@ -26,6 +26,10 @@ export const viewerConfig = {
   skyBox: false
 };
 
+export const imageFile = {
+  source: '../img/custom/dom_sued.jpeg'
+};
+
 export const wms_nw_dop = {
   url: 'https://www.wms.nrw.de/geobasis/wms_nw_dop',
   layers: 'nw_dop_rgb',

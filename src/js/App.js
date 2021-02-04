@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import Globe from './Globe';
 import Photobox from './Photobox';
 import {
@@ -28,7 +28,6 @@ import { show } from './store/showPhotobox';
  */
 function App() {
   const dispatch = useDispatch();
-  const { showPhotobox } = useSelector((state) => state.showPhotobox);
   Ion.defaultAccessToken = cesiumToken;
 
   const [viewer, setViewer] = useState(null);
@@ -90,27 +89,10 @@ function App() {
     return new WebMapServiceImageryProvider(wms_nw_dop);
   };
 
-  /**
-   * Controls the overlay
-   */
-  const togglePhotobox = () => {
-    dispatch(show(!showPhotobox));
-  };
-
-  const pbClassName = `${!showPhotobox ? ' no-display' : ''}`;
-
   return (
     <React.Fragment>
       <Globe cesiumContainerId={cesiumContainerId} viewer={viewer} />
-      <div id="mdiv" className={pbClassName} onClick={togglePhotobox}>
-        <div className="mdiv">
-          <div className="md"></div>
-        </div>
-      </div>
-      <Photobox
-        photoboxContainerId={photoboxContainerId}
-        viewer={viewer}
-      />
+      <Photobox photoboxContainerId={photoboxContainerId} viewer={viewer} />
     </React.Fragment>
   );
 }
