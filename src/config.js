@@ -27,7 +27,7 @@ export const viewerConfig = {
 };
 
 export const imageFile = {
-  source: '../img/custom/dom_sued.jpeg'
+  source: './img/custom/dom_sued.jpeg'
 };
 
 export const wms_nw_dop = {
