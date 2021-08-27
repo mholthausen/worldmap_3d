@@ -51,6 +51,7 @@
     "webpack-dev-server": "^3.11.2"
   },
   "dependencies": {
+    "antd": "^4.16.13",
     "babylonjs": "5.0.0-alpha.40",
     "cesium": "1.84"
   }

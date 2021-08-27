@@ -66,3 +66,26 @@ body,
 .no-display {
   display: none;
 }
+
+#toolbar {
+  background: rgba(42, 42, 42, 0.8);
+  padding: 4px;
+  border-radius: 4px;
+  position: absolute;
+  width: 350px;
+}
+
+#toolbar input {
+  vertical-align: middle;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+#toolbar .header {
+  font-weight: bold;
+  color: #fff;
+}
+
+#toolbar .sub-header {
+  color: #fff;
+}

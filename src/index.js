@@ -5,6 +5,7 @@ import store from './js/store/index';
 
 import 'cesium/Build/Cesium/Widgets/widgets.css';
 import './css/main.css';
+import 'antd/dist/antd.css';
 
 import App from './js/App';
 

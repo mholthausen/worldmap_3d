@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import Globe from './Globe';
 import Photobox from './Photobox';
+import Toolbar from './Toolbar';
 import {
   Ion,
   Camera,
@@ -93,6 +94,7 @@ function App() {
     <React.Fragment>
       <Globe cesiumContainerId={cesiumContainerId} viewer={viewer} />
       <Photobox photoboxContainerId={photoboxContainerId} viewer={viewer} />
+      <Toolbar viewer={viewer}></Toolbar>
     </React.Fragment>
   );
 }
