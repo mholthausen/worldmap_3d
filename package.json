@@ -1,6 +1,6 @@
 {
   "name": "worldmap_3d",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "3D Cesium and babylonjs based client",
   "homepage": "https://mholthausen.github.io/worldmap_3d/",
   "main": "index.js",
@@ -51,6 +51,7 @@
     "webpack-dev-server": "^3.11.2"
   },
   "dependencies": {
+    "antd": "^4.16.13",
     "babylonjs": "5.0.0-alpha.40",
     "cesium": "1.84"
   }
