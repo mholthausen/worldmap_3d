@@ -14,7 +14,8 @@ import {
   CzmlDataSource,
   ScreenSpaceEventHandler,
   ScreenSpaceEventType,
-  Entity
+  Entity,
+  Cartesian3
 } from 'cesium';
 import {
   cesiumToken,
@@ -52,10 +53,32 @@ function App() {
       ...viewerConfig
     });
 
+    const longitude = 6.953101;
+    const latitude = 50.935173;
+    const height = -200.0;
+    const position = Cartesian3.fromDegrees(
+      longitude,
+      latitude,
+      height
+    );
+    // Example tunnels taken from Cesium Sandcastle
+    // https://sandcastle.cesium.com/?src=Underground%20Color.html
+
+    const url = '../data/tunnels.glb';
+
+    viewer.entities.add({
+      name: url,
+      position: position,
+      model: {
+        uri: url
+      }
+    });
+
     viewer.imageryLayers.addImageryProvider(loadOrthophoto());
     viewer.dataSources.add(dataSourcePromise);
 
     if (viewer.scene) {
+      viewer.scene.screenSpaceCameraController.enableCollisionDetection = false;
       openPhotoboxHandler(viewer.scene);
     }
 
