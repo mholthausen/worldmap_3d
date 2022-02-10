@@ -21,7 +21,8 @@ import {
   cesiumToken,
   viewerConfig,
   wms_nw_dop,
-  czml_cgn_cathedral
+  czml_cgn_cathedral,
+  tunnelsFile
 } from '../config';
 import { show } from './store/showPhotobox';
 
@@ -64,13 +65,11 @@ function App() {
     // Example tunnels taken from Cesium Sandcastle
     // https://sandcastle.cesium.com/?src=Underground%20Color.html
 
-    const url = '../data/tunnels.glb';
-
     viewer.entities.add({
-      name: url,
+      name: tunnelsFile,
       position: position,
       model: {
-        uri: url
+        uri: tunnelsFile
       }
     });
 

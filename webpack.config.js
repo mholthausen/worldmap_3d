@@ -94,6 +94,10 @@ const cesiumSource = 'node_modules/cesium';
         {
           from: 'src/img',
           to: 'img/'
+        },
+        {
+          from: 'src/data',
+          to: 'data/'
         }
       ]
     }),

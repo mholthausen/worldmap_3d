@@ -66,4 +66,6 @@ export const czml_cgn_cathedral = [
   }
 ];
 
+export const tunnelsFile = './data/tunnels.glb';
+
 export default cesiumToken;
