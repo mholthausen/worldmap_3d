@@ -4,9 +4,9 @@
   "description": "3D Cesium and babylonjs based client",
   "homepage": "https://mholthausen.github.io/worldmap_3d/",
   "main": "index.js",
-  "engines" : {
-    "npm" : ">=8.0.0",
-    "node" : ">=16.0.0"
+  "engines": {
+    "npm": ">=8.0.0",
+    "node": ">=16.0.0"
   },
   "scripts": {
     "test": "npm run lint",
@@ -29,6 +29,7 @@
     "@babel/helper-compilation-targets": "^7.12.13",
     "@babel/preset-env": "^7.12.13",
     "@babel/preset-react": "^7.12.13",
+    "@babel/eslint-parser": "^7.17.0",
     "@reduxjs/toolkit": "^1.5.0",
     "babel-loader": "^8.0.6",
     "copy-webpack-plugin": "^7.0.0",
