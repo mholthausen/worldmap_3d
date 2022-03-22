@@ -58,6 +58,6 @@
   "dependencies": {
     "antd": "^4.18.7",
     "babylonjs": "4.2.1",
-    "cesium": "1.90.0"
+    "cesium": "1.91.0"
   }
 }
