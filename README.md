@@ -1,16 +1,13 @@
-# CesiumJS 3D Demo-Client
+# Worldmap 3D Demo-Client
 
 [![Build Status](https://github.com/mholthausen/worldmap_3d/workflows/Build%20and%20Deploy/badge.svg)](https://github.com/mholthausen/worldmap_3d/actions?query=workflow%3A%22Build+and+Deploy%22)
 [![Known Vulnerabilities](https://snyk.io/test/github/mholthausen/worldmap_3d/badge.svg?targetFile=package.json)](https://snyk.io/test/github/mholthausen/worldmap_3d?targetFile=package.json)
-[![Maintainability](https://api.codeclimate.com/v1/badges/104d45c34d81fac02423/maintainability)](https://codeclimate.com/github/mholthausen/worldmap_3d/maintainability)
-[![Dependencies Status](https://david-dm.org/mholthausen/worldmap_3d.svg)](https://david-dm.org/mholthausen/worldmap_3d)
-[![devDependencies Status](https://david-dm.org/mholthausen/worldmap_3d/dev-status.svg)](https://david-dm.org/mholthausen/worldmap_3d?type=dev)
 
 ## Requirements
 
-- [x] Setting up the Node.Js (14.15.4 LTS) and React.Js (17.0.2) environment
+- [x] Setting up the Node.Js (at least 16.15.0 LTS) and React.Js (17.0.2) environment
 
-- [x] Integration of the latest version of the [CesiumJS](https://cesiumjs.org/) framework at the time of development (Version 1.82.1)
+- [x] Integration of the latest version of the [CesiumJS](https://cesiumjs.org/) framework at the time of development (Version 1.93.0)
 
 - [x] Loading the 3D city model of Cologne, Germany as [CesiumTerrainProvider](https://cesium.com/docs/cesiumjs-ref-doc/CesiumTerrainProvider.html)
 
