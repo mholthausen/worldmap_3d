@@ -6,7 +6,7 @@ WORKDIR /app
 COPY . .
 RUN npm run build
 
-FROM nginx:1.20-alpine
+FROM nginx:1.23.2-alpine
 COPY dist/ /usr/share/nginx/html
 RUN rm /etc/nginx/conf.d/default.conf
 COPY nginx.conf /etc/nginx/conf.d
