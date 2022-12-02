@@ -1,11 +1,11 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import store from './js/store/index';
 
 import 'cesium/Build/Cesium/Widgets/widgets.css';
 import './css/main.css';
-import 'antd/dist/antd.css';
+import 'antd/dist/reset.css';
 
 import App from './js/App';
 import Footer from './js/Footer';
@@ -14,16 +14,17 @@ import { customer } from './config';
 
 document.title = customer.title;
 
-ReactDOM.render(
+const root = ReactDOM.createRoot(document.getElementById('root'));
+const footer = ReactDOM.createRoot(document.getElementById('footer'));
+
+root.render(
   <Provider store={store}>
     <React.Suspense fallback={<div>Loading...</div>}>
       <App />
     </React.Suspense>
-  </Provider>,
-  document.getElementById('root')
+  </Provider>
 );
 
-ReactDOM.render(
-  <Footer />,
-  document.getElementById('footer')
+footer.render(
+  <Footer />
 );

@@ -23,6 +23,14 @@ const cesiumSource = 'node_modules/cesium';
     __dirname: false
   },
   resolve: {
+    fallback: {
+      zlib: false,
+      https: false,
+      http: false,
+      assert: false,
+      util: false,
+      url: false
+    },
     mainFields: ['module', 'main'],
     alias: {
       cesium: path.resolve(__dirname, cesiumSource)
@@ -106,7 +114,7 @@ const cesiumSource = 'node_modules/cesium';
     })
   ],
   devServer: {
-    contentBase: path.join(__dirname, 'dist')
+    static: path.join(__dirname, 'dist')
   }
 }),
 (module.rules = {

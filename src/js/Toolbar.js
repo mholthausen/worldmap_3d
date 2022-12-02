@@ -36,6 +36,7 @@ function Toolbar(props) {
               onChange={onChange}
               value={typeof inputValue === 'number' ? inputValue : 1}
               step={0.01}
+              className={'exaggSlider'}
             />
           </Col>
           <Col span={4}>
