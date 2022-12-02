@@ -13,7 +13,7 @@
     "build": "node_modules/.bin/webpack --config webpack.config.js --mode production",
     "start": "node_modules/.bin/webpack serve --config webpack.config.js --mode development --host 0.0.0.0 --port 3000 --static src --hot",
     "lint": "eslint -c .eslintrc.yml --ext js,jsx,html src/",
-    "release": "release-it"
+    "release": "release-it -VV"
   },
   "repository": {
     "type": "git",
