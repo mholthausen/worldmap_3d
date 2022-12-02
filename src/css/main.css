@@ -113,3 +113,7 @@ footer li {
 #toolbar .sub-header {
   color: #fff;
 }
+
+#toolbar .exaggSlider .ant-slider-rail {
+  background-color: #91caff;
+}
