@@ -5,9 +5,9 @@
 
 ## Requirements
 
-- [x] Setting up the Node.Js (at least 16.15.0 LTS) and React.Js (17.0.2) environment
+- [x] Setting up the NodeJS (at least 18.12.1 LTS) and React.Js (18.2.0) environment
 
-- [x] Integration of the latest version of the [CesiumJS](https://cesiumjs.org/) framework at the time of development (Version 1.93.0)
+- [x] Integration of the latest version of the [CesiumJS](https://cesiumjs.org/) framework at the time of development (Version 1.100.0)
 
 - [x] Loading the 3D city model of Cologne, Germany as [CesiumTerrainProvider](https://cesium.com/docs/cesiumjs-ref-doc/CesiumTerrainProvider.html)
 
