@@ -1,7 +1,6 @@
 {
   "src": {
-    "tagName": "v%s",
-    "commitArgs": "-S"
+    "tagName": "v%s"
   },
   "requireUpstream": false,
   "requireCleanWorkingDir": false,
