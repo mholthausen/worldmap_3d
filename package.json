@@ -1,6 +1,6 @@
 {
   "name": "worldmap_3d",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "3D Cesium and babylonjs based client",
   "homepage": "https://mholthausen.github.io/worldmap_3d/",
   "main": "index.js",
