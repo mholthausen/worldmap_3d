@@ -8,15 +8,15 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [18.12.1]
+        node-version: [20.9.0]
     steps:
       - name: Checkout 🛎️
-        uses: actions/checkout@v3.0.2
+        uses: actions/checkout@v4.1.1
         with:
           persist-credentials: false
       - name: 'Get Previous tag'
         id: previoustag
-        uses: "WyriHaximus/github-action-get-previous-tag@v1"
+        uses: "WyriHaximus/github-action-get-previous-tag@v1.3.0"
         with:
           fallback: "latest" # Optional fallback tag to use when no tag can be found
       - name: Install and Build (using Node.js ${{ matrix.node-version }}) 🔧
@@ -28,7 +28,7 @@ jobs:
       - run: npm run build
 
       - name: Deploy to gh-pages 🚀
-        uses: JamesIves/github-pages-deploy-action@v4.3.3
+        uses: JamesIves/github-pages-deploy-action@v4.4.3
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages # The branch the action should deploy to.
@@ -50,7 +50,7 @@ jobs:
 
       - name: Build and Push to Nexus 🚀
         id: docker_build
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v5.0.0
         with:
           push: true
           context: .
