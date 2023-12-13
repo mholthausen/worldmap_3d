@@ -58,8 +58,9 @@
     "webpack-dev-server": "4.15.1"
   },
   "dependencies": {
-    "antd": "5.11.1",
-    "babylonjs": "6.28.1",
-    "cesium": "1.111.0"
+    "antd": "5.12.4",
+    "babylonjs": "6.36.0",
+    "cesium": "1.114.0",
+    "use-async-effect": "^2.2.7"
   }
 }
