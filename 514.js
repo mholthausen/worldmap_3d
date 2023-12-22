@@ -1,1 +1,1 @@
-(self.webpackChunkworldmap_3d=self.webpackChunkworldmap_3d||[]).push([[514],{5514:()=>{}}]);
+(self.webpackChunkworldmap_3d=self.webpackChunkworldmap_3d||[]).push([[514],{514:()=>{}}]);
