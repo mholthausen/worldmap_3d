@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Globe from './Globe';
 import Photobox from './Photobox';
@@ -24,6 +24,7 @@ import {
   czml_cgn_cathedral,
   tunnelsFile
 } from '../config';
+import useAsyncEffect from 'use-async-effect';
 import { show } from './store/showPhotobox';
 
 /**
@@ -40,7 +41,7 @@ function App() {
   /**
    * Runs when the component did mount
    */
-  useEffect(() => {
+  useAsyncEffect(async () => {
     const extent = Rectangle.fromDegrees(6.95222, 50.93508, 6.96479, 50.94738);
     const dataSourcePromise = CzmlDataSource.load(czml_cgn_cathedral);
     Camera.DEFAULT_VIEW_RECTANGLE = extent;
@@ -48,15 +49,14 @@ function App() {
 
     // load DGM of Cologne city as terrain provider
     const viewer = new Viewer(cesiumContainerId, {
-      terrainProvider: new CesiumTerrainProvider({
-        url: IonResource.fromAssetId(273803)
-      }),
+      terrainProvider: await CesiumTerrainProvider.fromUrl(
+        IonResource.fromAssetId(273803)),
       ...viewerConfig
     });
 
     const longitude = 6.953101;
     const latitude = 50.935173;
-    const height = -200.0;
+    const height = -500.0;
     const position = Cartesian3.fromDegrees(
       longitude,
       latitude,
