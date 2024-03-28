@@ -16,8 +16,8 @@ function Toolbar(props) {
     const { viewer } = props;
 
     if (viewer) {
-      viewer.scene.globe.terrainExaggeration = Number(value);
-      viewer.scene.globe.terrainExaggerationRelativeHeight = Number(0);
+      viewer.scene.verticalExaggeration = Number(value);
+      viewer.scene.verticalExaggerationRelativeHeight = Number(0);
     }
 
     setInputValue(value);
