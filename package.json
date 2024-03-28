@@ -59,7 +59,7 @@
   },
   "dependencies": {
     "antd": "5.12.4",
-    "babylonjs": "6.35.0",
+    "babylonjs": "6.36.0",
     "cesium": "1.113.0",
     "use-async-effect": "^2.2.7"
   }
