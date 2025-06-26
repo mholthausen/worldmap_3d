@@ -1,12 +1,17 @@
-const path = require('path');
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
-const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopywebpackPlugin = require('copy-webpack-plugin');
+import webpack from 'webpack';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const cesiumSource = 'node_modules/cesium';
 
-(module.exports = {
+export default {
   context: __dirname,
   entry: {
     app: './src/index.js'
@@ -15,12 +20,6 @@ const cesiumSource = 'node_modules/cesium';
     filename: '[name].js',
     path: path.resolve(__dirname, 'dist'),
     sourcePrefix: ''
-  },
-  node: {
-    // Resolve node module use of fs
-    global: false,
-    __filename: false,
-    __dirname: false
   },
   resolve: {
     fallback: {
@@ -37,8 +36,23 @@ const cesiumSource = 'node_modules/cesium';
     }
   },
   module: {
-    // unknownContextCritical: false,
     rules: [
+      // Strip cesium pragmas
+      {
+        test: /\.js$/,
+        enforce: 'pre',
+        include: path.resolve(__dirname, cesiumSource),
+        use: [
+          {
+            loader: 'strip-pragma-loader',
+            options: {
+              pragmas: {
+                debug: false
+              }
+            }
+          }
+        ]
+      },
       {
         test: /\.css$/,
         use: ['style-loader', 'css-loader']
@@ -81,7 +95,7 @@ const cesiumSource = 'node_modules/cesium';
     new HtmlWebpackPlugin({
       template: 'src/index.html'
     }),
-    new CopywebpackPlugin({
+    new CopyWebpackPlugin({
       patterns: [
         {
           from: path.join(cesiumSource, 'Build/Cesium/Workers'),
@@ -114,26 +128,10 @@ const cesiumSource = 'node_modules/cesium';
     })
   ],
   devServer: {
-    static: path.join(__dirname, 'dist')
-  }
-}),
-(module.rules = {
-  rules: [
-    {
-      // Strip cesium pragmas
-      test: /\.js$/,
-      enforce: 'pre',
-      include: path.resolve(__dirname, cesiumSource),
-      use: [
-        {
-          loader: 'strip-pragma-loader',
-          options: {
-            pragmas: {
-              debug: false
-            }
-          }
-        }
-      ]
-    }
-  ]
-});
+    static: path.join(__dirname, 'dist'),
+    host: '0.0.0.0',
+    port: 3000,
+    hot: true
+  },
+  mode: 'development'
+};

@@ -1,16 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
-import store from './js/store/index';
+import store from './js/store/index.js';
 
 import 'cesium/Build/Cesium/Widgets/widgets.css';
 import './css/main.css';
 import 'antd/dist/reset.css';
 
-import App from './js/App';
-import Footer from './js/Footer';
+import App from './js/App.js';
+import Footer from './js/Footer.js';
 
-import { customer } from './config';
+import { customer } from './config.js';
 
 document.title = customer.title;
 
