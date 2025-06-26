@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import Globe from './Globe';
-import Photobox from './Photobox';
-import Toolbar from './Toolbar';
+import Globe from './Globe.js';
+import Photobox from './Photobox.js';
+import Toolbar from './Toolbar.js';
 import {
   Ion,
   Camera,
@@ -23,9 +23,8 @@ import {
   wms_nw_dop,
   czml_cgn_cathedral,
   tunnelsFile
-} from '../config';
-import useAsyncEffect from 'use-async-effect';
-import { show } from './store/showPhotobox';
+} from '../config.js';
+import { show } from './store/showPhotobox.js';
 
 /**
  * Bundles the App
@@ -41,48 +40,54 @@ function App() {
   /**
    * Runs when the component did mount
    */
-  useAsyncEffect(async () => {
-    const extent = Rectangle.fromDegrees(6.95222, 50.93508, 6.96479, 50.94738);
-    const dataSourcePromise = CzmlDataSource.load(czml_cgn_cathedral);
-    Camera.DEFAULT_VIEW_RECTANGLE = extent;
-    Camera.DEFAULT_VIEW_FACTOR = 0;
+  useEffect(() => {
+    const run = async () => {
+      const extent = Rectangle.fromDegrees(
+        6.95222,
+        50.93508,
+        6.96479,
+        50.94738
+      );
+      const dataSourcePromise = CzmlDataSource.load(czml_cgn_cathedral);
+      Camera.DEFAULT_VIEW_RECTANGLE = extent;
+      Camera.DEFAULT_VIEW_FACTOR = 0;
 
-    // load DGM of Cologne city as terrain provider
-    const viewer = new Viewer(cesiumContainerId, {
-      terrainProvider: await CesiumTerrainProvider.fromUrl(
-        IonResource.fromAssetId(273803)),
-      ...viewerConfig
-    });
+      // load DGM of Cologne city as terrain provider
+      const viewer = new Viewer(cesiumContainerId, {
+        terrainProvider: await CesiumTerrainProvider.fromUrl(
+          IonResource.fromAssetId(273803)
+        ),
+        ...viewerConfig
+      });
 
-    const longitude = 6.953101;
-    const latitude = 50.935173;
-    const height = -500.0;
-    const position = Cartesian3.fromDegrees(
-      longitude,
-      latitude,
-      height
-    );
-    // Example tunnels taken from Cesium Sandcastle
-    // https://sandcastle.cesium.com/?src=Underground%20Color.html
+      const longitude = 6.953101;
+      const latitude = 50.935173;
+      const height = -500.0;
+      const position = Cartesian3.fromDegrees(longitude, latitude, height);
+      // Example tunnels taken from Cesium Sandcastle
+      // https://sandcastle.cesium.com/?src=Underground%20Color.html
 
-    viewer.entities.add({
-      name: tunnelsFile,
-      position: position,
-      model: {
-        uri: tunnelsFile
+      viewer.entities.add({
+        name: tunnelsFile,
+        position: position,
+        model: {
+          uri: tunnelsFile
+        }
+      });
+
+      viewer.imageryLayers.addImageryProvider(loadOrthophoto());
+      viewer.dataSources.add(dataSourcePromise);
+
+      if (viewer.scene) {
+        viewer.scene.screenSpaceCameraController.enableCollisionDetection =
+          false;
+        openPhotoboxHandler(viewer.scene);
       }
-    });
+      setViewer(viewer);
+      dispatch(show(false));
+    };
 
-    viewer.imageryLayers.addImageryProvider(loadOrthophoto());
-    viewer.dataSources.add(dataSourcePromise);
-
-    if (viewer.scene) {
-      viewer.scene.screenSpaceCameraController.enableCollisionDetection = false;
-      openPhotoboxHandler(viewer.scene);
-    }
-
-    setViewer(viewer);
-    dispatch(show(false));
+    run();
   }, []);
 
   /**
@@ -90,9 +95,9 @@ function App() {
    *
    * @param {Object} scene
    */
-  const openPhotoboxHandler = (scene) => {
+  const openPhotoboxHandler = scene => {
     const handler = new ScreenSpaceEventHandler(scene.canvas);
-    handler.setInputAction((evtObj) => {
+    handler.setInputAction(evtObj => {
       let picked = scene.pick(evtObj.position);
       if (
         picked &&
@@ -114,8 +119,14 @@ function App() {
 
   return (
     <React.Fragment>
-      <Globe cesiumContainerId={cesiumContainerId} viewer={viewer} />
-      <Photobox photoboxContainerId={photoboxContainerId} viewer={viewer} />
+      <Globe
+        cesiumContainerId={cesiumContainerId}
+        viewer={viewer}
+      />
+      <Photobox
+        photoboxContainerId={photoboxContainerId}
+        viewer={viewer}
+      />
       <Toolbar viewer={viewer}></Toolbar>
     </React.Fragment>
   );

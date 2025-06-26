@@ -2,10 +2,10 @@ import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import * as BABYLON from 'babylonjs';
-import { show } from './store/showPhotobox';
+import { show } from './store/showPhotobox.js';
 import {
   imageFile
-} from '../config';
+} from '../config.js';
 
 /**
  * BabylonJS Overlay
