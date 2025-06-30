@@ -12,7 +12,7 @@ function Toolbar(props) {
    *
    * @param {*} value
    */
-  const onChange = (value) => {
+  const onChange = value => {
     const { viewer } = props;
 
     if (viewer) {
