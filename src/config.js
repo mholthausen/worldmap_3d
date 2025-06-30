@@ -68,4 +68,15 @@ export const czml_cgn_cathedral = [
 
 export const tunnelsFile = './data/tunnels.glb';
 
+export const wms_dwd_radar = {
+  url: 'https://maps.dwd.de/geoserver/dwd/ows',
+  layers: 'dwd:Niederschlagsradar',
+  parameters: {
+    SERVICE: 'WMS',
+    VERSION: '1.3.0',
+    FORMAT: 'image/png',
+    TRANSPARENT: true
+  }
+};
+
 export default cesiumToken;

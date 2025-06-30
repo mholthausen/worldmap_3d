@@ -15,14 +15,17 @@ import {
   ScreenSpaceEventHandler,
   ScreenSpaceEventType,
   Entity,
-  Cartesian3
+  Cartesian3,
+  JulianDate,
+  ClockRange
 } from 'cesium';
 import {
   cesiumToken,
   viewerConfig,
   wms_nw_dop,
   czml_cgn_cathedral,
-  tunnelsFile
+  tunnelsFile,
+  wms_dwd_radar
 } from '../config.js';
 import { show } from './store/showPhotobox.js';
 
@@ -37,11 +40,27 @@ function App() {
   const [cesiumContainerId] = useState('cesiumContainer');
   const [photoboxContainerId] = useState('photoboxContainer');
 
+  function roundJulianDateTo5Minutes(julianDate) {
+    const date = JulianDate.toDate(julianDate);
+    const ms = date.getTime();
+    const roundedMs = Math.floor(ms / (5 * 60 * 1000)) * 5 * 60 * 1000;
+    const roundedDate = new Date(roundedMs);
+    return JulianDate.fromDate(roundedDate);
+  }
+
   /**
    * Runs when the component did mount
    */
   useEffect(() => {
+    let viewer = null;
+    let radarImageryLayer = null;
+    let lastTimeStr = '';
+    let tickHandler = null;
+
     const run = async () => {
+      const today = JulianDate.now();
+      const start = JulianDate.addDays(today, -1, new JulianDate());
+
       const extent = Rectangle.fromDegrees(
         6.95222,
         50.93508,
@@ -52,13 +71,47 @@ function App() {
       Camera.DEFAULT_VIEW_RECTANGLE = extent;
       Camera.DEFAULT_VIEW_FACTOR = 0;
 
-      // load DGM of Cologne city as terrain provider
-      const viewer = new Viewer(cesiumContainerId, {
+      viewer = new Viewer(cesiumContainerId, {
         terrainProvider: await CesiumTerrainProvider.fromUrl(
           IonResource.fromAssetId(273803)
         ),
         ...viewerConfig
       });
+
+      viewer.timeline.zoomTo(start, today);
+      viewer.clock.startTime = start;
+      viewer.clock.stopTime = today;
+      viewer.clock.currentTime = start;
+      viewer.clock.clockRange = ClockRange.LOOP_STOP;
+
+      tickHandler = clock => {
+        const rounded = roundJulianDateTo5Minutes(clock.currentTime);
+        const timeStr = JulianDate.toIso8601(rounded);
+
+        if (timeStr !== lastTimeStr) {
+          lastTimeStr = timeStr;
+
+          const newProvider = new WebMapServiceImageryProvider({
+            url: wms_dwd_radar.url,
+            layers: wms_dwd_radar.layers,
+            parameters: {
+              ...wms_dwd_radar.parameters,
+              TIME: timeStr
+            }
+          });
+
+          if (radarImageryLayer) {
+            viewer.imageryLayers.remove(radarImageryLayer, true);
+          }
+
+          radarImageryLayer =
+            viewer.imageryLayers.addImageryProvider(newProvider);
+          viewer.imageryLayers.raiseToTop(radarImageryLayer);
+          viewer.scene.requestRender();
+        }
+      };
+
+      viewer.clock.onTick.addEventListener(tickHandler);
 
       const longitude = 6.953101;
       const latitude = 50.935173;
@@ -69,7 +122,7 @@ function App() {
 
       viewer.entities.add({
         name: tunnelsFile,
-        position: position,
+        position,
         model: {
           uri: tunnelsFile
         }
@@ -79,15 +132,24 @@ function App() {
       viewer.dataSources.add(dataSourcePromise);
 
       if (viewer.scene) {
-        viewer.scene.screenSpaceCameraController.enableCollisionDetection =
-          false;
+        // eslint-disable-next-line max-len
+        viewer.scene.screenSpaceCameraController.enableCollisionDetection = false;
         openPhotoboxHandler(viewer.scene);
       }
+
       setViewer(viewer);
       dispatch(show(false));
     };
 
     run();
+
+    return () => {
+      if (viewer && !viewer.isDestroyed()) {
+        if (tickHandler) {
+          viewer.clock.onTick.removeEventListener(tickHandler);
+        }
+      }
+    };
   }, []);
 
   /**
