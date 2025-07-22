@@ -106,6 +106,8 @@ footer li {
 }
 
 #toolbar .header {
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
   font-weight: bold;
   color: #fff;
 }
@@ -116,4 +118,20 @@ footer li {
 
 #toolbar .exaggSlider .ant-slider-rail {
   background-color: #91caff;
+}
+
+.toolbar-text {
+  color: white;
+}
+
+.toolbar-text-strong {
+  color: white;
+  font-weight: bold;
+}
+
+.toolbar-link {
+  color: white !important;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: underline;
 }
