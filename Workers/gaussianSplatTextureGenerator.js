@@ -1,2 +1,0 @@
-/*! For license information please see gaussianSplatTextureGenerator.js.LICENSE.txt */
-import{a,c}from"./chunk-BYU3QM3A.js";import{a as i}from"./chunk-65CN64EP.js";import{e as n}from"./chunk-FE4HG5RY.js";async function u(t,a){let s=t.webAssemblyConfig;return!(!n(s)||!n(s.wasmBinary)||(c({module:s.wasmBinary}),0))}async function l(t,s){let i=t.webAssemblyConfig;if(n(i))return u(t,s);let{attributes:o,count:r}=t,e=a(o.positions,o.scales,o.rotations,o.colors,r);return{data:e.data,width:e.width,height:e.height}}var w=i(l);export{w as default};
