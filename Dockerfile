@@ -1,8 +1,8 @@
-FROM node:20-alpine as builder
-# install and cache app dependencies
-COPY package.json package-lock.json ./
-RUN npm install && mkdir /app && mv ./node_modules ./app
+FROM node:22-alpine AS builder
+
 WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm install
 COPY . .
 RUN npm run build
 

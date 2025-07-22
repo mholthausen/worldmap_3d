@@ -1,60 +1,72 @@
 {
   "name": "worldmap_3d",
   "version": "5.2.0",
-  "type": "module",
   "description": "3D Cesium and babylonjs based client",
   "homepage": "https://mholthausen.github.io/worldmap_3d/",
-  "main": "index.js",
-  "engines": {
-    "npm": ">=11.4.2",
-    "node": ">=24.3.0"
+  "license": "Apache-2.0",
+  "author": {
+    "name": "terrestris GmbH & Co. KG",
+    "url": "https://www.terrestris.de/en"
   },
-  "scripts": {
-    "test": "npm run lint",
-    "build": "node_modules/.bin/webpack --config webpack.config.js --mode production",
-    "start": "node_modules/.bin/webpack serve --config webpack.config.js --mode development --host 0.0.0.0 --port 3000 --static src --hot",
-    "lint": "eslint --ext js,jsx src/",
-    "release": "release-it -VV"
+  "contributors": [
+    {
+      "name": "Michael Holthausen",
+      "email": "holthausen@terrestris.de",
+      "url": "https://www.github.com/mholthausen"
+    }
+  ],
+  "engines": {
+    "npm": ">=10.9.2",
+    "node": ">=22.17.1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mholthausen/worldmap_3d.git"
   },
-  "keywords": [],
-  "author": "Michael Holthausen <holthausen@terrestris.de>",
-  "license": "Apache-2.0",
-  "bugs": {
-    "url": "https://github.com/mholthausen/worldmap_3d/issues"
+  "type": "module",
+  "scripts": {
+    "test": "npm run lint",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint --ext js,jsx src/ --cache --quiet",
+    "prettier": "prettier --write --no-config \"**/*\"",
+    "prettier-check": "prettier --check --no-config \"**/*\"",
+    "release": "release-it -VV"
   },
   "devDependencies": {
-    "@babel/core": "7.27.4",
-    "@babel/helper-compilation-targets": "7.27.2",
-    "@babel/preset-env": "7.27.2",
+    "@babel/core": "7.28.0",
+    "@babel/eslint-parser": "7.28.0",
+    "@babel/preset-env": "^7.28.0",
     "@babel/preset-react": "7.27.1",
     "@reduxjs/toolkit": "2.8.2",
     "babel-loader": "10.0.0",
-    "copy-webpack-plugin": "13.0.0",
-    "css-loader": "7.1.2",
-    "eslint": "9.29.0",
-    "eslint-plugin-html": "8.1.3",
-    "eslint-plugin-markdown": "5.1.0",
+    "eslint": "9.31.0",
+    "eslint-config-cesium": "11.0.1",
+    "eslint-plugin-es": "4.1.0",
     "eslint-plugin-react": "7.37.5",
-    "html-loader": "5.1.0",
-    "html-webpack-plugin": "5.6.3",
+    "eslint-plugin-react-hooks": "5.2.0",
+    "husky": "9.1.7",
+    "prettier": "3.6.2",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-redux": "9.2.0",
-    "release-it": "19.0.3",
-    "strip-pragma-loader": "1.0.1",
-    "style-loader": "4.0.0",
-    "url-loader": "4.1.1",
-    "webpack": "5.99.9",
-    "webpack-cli": "6.0.1",
-    "webpack-dev-server": "5.2.2"
+    "vite": "7.0.5",
+    "vite-plugin-static-copy": "3.1.1"
   },
   "dependencies": {
     "antd": "5.26.2",
     "babylonjs": "8.14.0",
-    "cesium": "1.130.1"
+    "cesium": "1.131.0",
+    "prop-types": "^15.8.1"
+  },
+  "bugs": {
+    "url": "https://github.com/mholthausen/worldmap_3d/issues"
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx}": [
+      "eslint --cache --quiet",
+      "prettier --write --no-config"
+    ]
   }
 }
