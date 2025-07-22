@@ -9,12 +9,13 @@ const cesiumBaseUrl = "cesiumStatic";
 // https://vitejs.dev/config/
 export default defineConfig(({ command }) => {
   const isProduction = command === 'build';
+  const base = isProduction ? '/worldmap_3d/' : '/';
   console.log(`Vite is running in ${isProduction ? 'production' : 'development'} mode.`);
 
   return {
-    base: isProduction ? '/worldmap_3d/' : '/',
+    base,
     define: {
-      CESIUM_BASE_URL: JSON.stringify(`/${cesiumBaseUrl}`),
+      CESIUM_BASE_URL: JSON.stringify(`${base}${cesiumBaseUrl}`),
     },
     plugins: [
       viteStaticCopy({

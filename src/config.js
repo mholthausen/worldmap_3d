@@ -10,6 +10,8 @@ export const customer = {
   title: 'WorldMap 3D'
 };
 
+export const BASE_PATH = import.meta.env.BASE_URL;
+
 export const viewerConfig = {
   geocoder: true,
   skyAtmosphere: false,
@@ -27,7 +29,7 @@ export const viewerConfig = {
 };
 
 export const imageFile = {
-  source: '/img/custom/dom_sued.jpeg'
+  source: `${BASE_PATH}img/custom/dom_sued.jpeg`
 };
 
 export const wms_nw_dop = {
@@ -66,7 +68,7 @@ export const czml_cgn_cathedral = [
   }
 ];
 
-export const tunnelsFile = '/data/tunnels.glb';
+export const tunnelsFile = `${BASE_PATH}data/tunnels.glb`;
 
 export const wms_dwd_radar = {
   url: 'https://maps.dwd.de/geoserver/dwd/ows',
