@@ -35,10 +35,17 @@
     "release": "release-it -VV"
   },
   "devDependencies": {
+    "@babel/core": "7.28.0",
+    "@babel/eslint-parser": "7.28.0",
+    "@babel/preset-env": "^7.28.0",
+    "@babel/preset-react": "7.27.1",
     "@reduxjs/toolkit": "2.8.2",
+    "babel-loader": "10.0.0",
     "eslint": "9.31.0",
     "eslint-config-cesium": "11.0.1",
     "eslint-plugin-es": "4.1.0",
+    "eslint-plugin-react": "7.37.5",
+    "eslint-plugin-react-hooks": "5.2.0",
     "husky": "9.1.7",
     "prettier": "3.6.2",
     "react": "19.1.0",
