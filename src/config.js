@@ -27,7 +27,7 @@ export const viewerConfig = {
 };
 
 export const imageFile = {
-  source: './img/custom/dom_sued.jpeg'
+  source: '/img/custom/dom_sued.jpeg'
 };
 
 export const wms_nw_dop = {
@@ -66,7 +66,7 @@ export const czml_cgn_cathedral = [
   }
 ];
 
-export const tunnelsFile = './data/tunnels.glb';
+export const tunnelsFile = '/data/tunnels.glb';
 
 export const wms_dwd_radar = {
   url: 'https://maps.dwd.de/geoserver/dwd/ows',

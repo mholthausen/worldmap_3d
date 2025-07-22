@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import Globe from './Globe.js';
-import Photobox from './Photobox.js';
-import Toolbar from './Toolbar.js';
+import Globe from './Globe.jsx';
+import Photobox from './Photobox.jsx';
+import Toolbar from './Toolbar.jsx';
 import {
   Ion,
   Camera,
@@ -17,7 +17,11 @@ import {
   Entity,
   Cartesian3,
   JulianDate,
-  ClockRange
+  ClockRange,
+  Model,
+  Transforms,
+  Color,
+  ColorBlendMode
 } from 'cesium';
 import {
   cesiumToken,
@@ -83,6 +87,8 @@ function App() {
       viewer.clock.stopTime = today;
       viewer.clock.currentTime = start;
       viewer.clock.clockRange = ClockRange.LOOP_STOP;
+      viewer.scene.globe.depthTestAgainstTerrain = true;
+      viewer.scene.globe.showGroundAtmosphere = false;
 
       tickHandler = clock => {
         const rounded = roundJulianDateTo5Minutes(clock.currentTime);
@@ -117,15 +123,18 @@ function App() {
       const latitude = 50.935173;
       const height = -500.0;
       const position = Cartesian3.fromDegrees(longitude, latitude, height);
+      const modelMatrix = Transforms.eastNorthUpToFixedFrame(position);
       // Example tunnels taken from Cesium Sandcastle
       // https://sandcastle.cesium.com/?src=Underground%20Color.html
 
-      viewer.entities.add({
-        name: tunnelsFile,
-        position,
-        model: {
-          uri: tunnelsFile
-        }
+      Model.fromGltfAsync({
+        url: tunnelsFile,
+        modelMatrix,
+        scale: 1.0,
+        color: Color.WHITE,
+        colorBlendMode: ColorBlendMode.MIX
+      }).then((model) => {
+        viewer.scene.primitives.add(model);
       });
 
       viewer.imageryLayers.addImageryProvider(loadOrthophoto());
