@@ -68,12 +68,26 @@ jobs:
           sleep 10
           docker ps -a
 
-      - name: Check if container is running
+      - name: Check if container is running and app responds with HTTP 200
         run: |
           if ! docker ps | grep test-container; then
             echo "Container failed to start."
             exit 1
           fi
+
+          for i in {1..30}; do
+            http_status=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:3000/worldmap_3d)
+            if [ "$http_status" -eq 200 ]; then
+              echo "Service is up and responded with HTTP 200."
+              exit 0
+            else
+              echo "Waiting for service... (HTTP $http_status)"
+              sleep 1
+            fi
+          done
+
+          echo "Service did not respond with HTTP 200 in time."
+          exit 1
 
       - name: Clean up Docker
         run: |
