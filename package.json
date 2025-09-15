@@ -57,7 +57,7 @@
   },
   "dependencies": {
     "antd": "5.26.4",
-    "babylonjs": "8.20.0",
+    "babylonjs": "8.24.0",
     "cesium": "1.131.0",
     "prop-types": "^15.8.1"
   },
