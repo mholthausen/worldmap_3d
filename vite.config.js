@@ -1,5 +1,6 @@
 import { defineConfig } from "vite";
 import { viteStaticCopy } from "vite-plugin-static-copy";
+import react from "@vitejs/plugin-react";
 
 const cesiumSource = "node_modules/cesium/Build/Cesium";
 // This is the base url for static files that CesiumJS needs to load.
@@ -18,6 +19,7 @@ export default defineConfig(({ command }) => {
       CESIUM_BASE_URL: JSON.stringify(`${base}${cesiumBaseUrl}`),
     },
     plugins: [
+      react(),
       viteStaticCopy({
         targets: [
           { src: `${cesiumSource}/ThirdParty`, dest: cesiumBaseUrl },

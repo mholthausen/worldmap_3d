@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import Globe from "./Globe.jsx";
-import Photobox from "./Photobox.jsx";
-import Toolbar from "./Toolbar.jsx";
+import Globe from "./Globe.tsx";
+import Photobox from "./Photobox.tsx";
+import Toolbar from "./Toolbar.tsx";
 import {
   Ion,
   Camera,
@@ -22,7 +21,9 @@ import {
   Transforms,
   Color,
   ColorBlendMode,
-  Math as CesiumMath,
+  ImageryLayer,
+  Clock,
+  Scene,
 } from "cesium";
 import {
   cesiumToken,
@@ -31,21 +32,22 @@ import {
   czml_cgn_cathedral,
   tunnelsFile,
   wms_dwd_radar,
-} from "../config.js";
-import { show } from "./store/showPhotobox.js";
+} from "../config.ts";
+import { show } from "./store/showPhotobox.ts";
+import { useAppDispatch } from "../hooks";
 
 /**
  * Bundles the App
  */
-function App() {
-  const dispatch = useDispatch();
+const App: React.FC = () => {
+  const dispatch = useAppDispatch();
   Ion.defaultAccessToken = cesiumToken;
 
-  const [viewer, setViewer] = useState(null);
-  const [cesiumContainerId] = useState("cesiumContainer");
-  const [photoboxContainerId] = useState("photoboxContainer");
+  const [viewer, setViewer] = useState<Viewer | null>(null);
+  const [cesiumContainerId] = useState<string>("cesiumContainer");
+  const [photoboxContainerId] = useState<string>("photoboxContainer");
 
-  function roundJulianDateTo5Minutes(julianDate) {
+  function roundJulianDateTo5Minutes(julianDate: JulianDate): JulianDate {
     const date = JulianDate.toDate(julianDate);
     const ms = date.getTime();
     const roundedMs = Math.floor(ms / (5 * 60 * 1000)) * 5 * 60 * 1000;
@@ -57,10 +59,10 @@ function App() {
    * Runs when the component did mount
    */
   useEffect(() => {
-    let viewer = null;
-    let radarImageryLayer = null;
+    let viewer: Viewer | null = null;
+    let radarImageryLayer: ImageryLayer | null = null;
     let lastTimeStr = "";
-    let tickHandler = null;
+    let tickHandler: ((clock: Clock) => void) | null = null;
 
     const run = async () => {
       const today = JulianDate.now();
@@ -92,7 +94,7 @@ function App() {
       viewer.scene.globe.depthTestAgainstTerrain = true;
       viewer.scene.globe.showGroundAtmosphere = false;
 
-      tickHandler = (clock) => {
+      tickHandler = (clock: Clock) => {
         const rounded = roundJulianDateTo5Minutes(clock.currentTime);
         const timeStr = JulianDate.toIso8601(rounded);
 
@@ -109,13 +111,13 @@ function App() {
           });
 
           if (radarImageryLayer) {
-            viewer.imageryLayers.remove(radarImageryLayer, true);
+            viewer!.imageryLayers.remove(radarImageryLayer, true);
           }
 
           radarImageryLayer =
-            viewer.imageryLayers.addImageryProvider(newProvider);
-          viewer.imageryLayers.raiseToTop(radarImageryLayer);
-          viewer.scene.requestRender();
+            viewer!.imageryLayers.addImageryProvider(newProvider);
+          viewer!.imageryLayers.raiseToTop(radarImageryLayer);
+          viewer!.scene.requestRender();
         }
       };
 
@@ -136,7 +138,7 @@ function App() {
         color: Color.WHITE,
         colorBlendMode: ColorBlendMode.MIX,
       }).then((model) => {
-        viewer.scene.primitives.add(model);
+        viewer!.scene.primitives.add(model);
       });
 
       viewer.imageryLayers.addImageryProvider(loadOrthophoto());
@@ -160,16 +162,14 @@ function App() {
         }
       }
     };
-  }, []);
+  }, [dispatch]);
 
   /**
    * Sets up the left click event handler
-   *
-   * @param {Object} scene
    */
-  const openPhotoboxHandler = (scene) => {
+  const openPhotoboxHandler = (scene: Scene) => {
     const handler = new ScreenSpaceEventHandler(scene.canvas);
-    handler.setInputAction((evtObj) => {
+    handler.setInputAction((evtObj: ScreenSpaceEventHandler.PositionedEvent) => {
       let picked = scene.pick(evtObj.position);
       if (
         picked &&
@@ -185,7 +185,7 @@ function App() {
   /**
    * Returns the DOP WMS of NRW
    */
-  const loadOrthophoto = () => {
+  const loadOrthophoto = (): WebMapServiceImageryProvider => {
     return new WebMapServiceImageryProvider(wms_nw_dop);
   };
 
@@ -193,9 +193,9 @@ function App() {
     <React.Fragment>
       <Globe cesiumContainerId={cesiumContainerId} viewer={viewer} />
       <Photobox photoboxContainerId={photoboxContainerId} viewer={viewer} />
-      <Toolbar viewer={viewer}></Toolbar>
+      <Toolbar viewer={viewer} />
     </React.Fragment>
   );
-}
+};
 
 export default App;

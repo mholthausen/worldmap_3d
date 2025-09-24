@@ -1,23 +1,25 @@
 import React, { useState } from "react";
 import { Slider, InputNumber, Row, Col, Typography, Divider } from "antd";
-import PropTypes from "prop-types";
-import { Cartesian3, Math as CesiumMath } from "cesium";
-import { appVersion, cesiumVersion, babylonVersion } from "../version";
+import { Cartesian3, Math as CesiumMath, Viewer } from "cesium";
+import { appVersion, cesiumVersion, babylonVersion } from "../version.ts";
 
 const { Paragraph, Link, Text } = Typography;
+
+interface ToolbarProps {
+  viewer?: Viewer | null;
+}
 
 /**
  * Bundles the Toolbar
  */
-function Toolbar(props) {
-  const [inputValue, setInputValue] = useState(1);
+const Toolbar: React.FC<ToolbarProps> = ({ viewer }) => {
+  const [inputValue, setInputValue] = useState<number>(1);
 
   /**
-   *
-   * @param {*} value
+   * Handle terrain exaggeration change
    */
-  const onChange = (value) => {
-    const { viewer } = props;
+  const onChange = (value: number | null): void => {
+    if (value === null) return;
 
     if (viewer) {
       viewer.scene.verticalExaggeration = Number(value);
@@ -27,9 +29,7 @@ function Toolbar(props) {
     setInputValue(value);
   };
 
-  const flyUnderground = () => {
-    const { viewer } = props;
-
+  const flyUnderground = (): void => {
     if (viewer) {
       viewer.camera.flyTo({
         destination: Cartesian3.fromDegrees(6.957177, 50.934689, -308.83),
@@ -48,7 +48,7 @@ function Toolbar(props) {
         <div className="header">Toolbar</div>
         <div className="sub-header">Demo Application</div>
         <Row>
-          <Typography size="small">
+          <Typography className="toolbar-text">
             <Paragraph>
               <Text className="toolbar-text-strong">App Version:</Text>{" "}
               <Text className="toolbar-text">{appVersion}</Text>
@@ -107,10 +107,6 @@ function Toolbar(props) {
       </div>
     </React.Fragment>
   );
-}
-
-Toolbar.propTypes = {
-  viewer: PropTypes.object,
 };
 
 export default Toolbar;
