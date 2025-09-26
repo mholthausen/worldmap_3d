@@ -3,7 +3,7 @@ import React from "react";
 /**
  * Bundles the Footer
  */
-function Footer() {
+const Footer: React.FC = () => {
   return (
     <React.Fragment>
       <footer>
@@ -14,6 +14,7 @@ function Footer() {
               <a
                 href="https://www.terrestris.de/en/datenschutzerklaerung/"
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 Privacy Policy
               </a>
@@ -23,6 +24,6 @@ function Footer() {
       </footer>
     </React.Fragment>
   );
-}
+};
 
 export default Footer;

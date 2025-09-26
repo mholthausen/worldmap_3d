@@ -1,27 +1,35 @@
 import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 import * as BABYLON from 'babylonjs';
-import { show } from './store/showPhotobox.js';
-import {
-  imageFile
-} from '../config.js';
+import { Viewer } from 'cesium';
+import { show } from './store/showPhotobox.ts';
+import { imageFile } from '../config.ts';
+import { RootState } from './store/index';
+
+interface PhotoboxProps {
+  viewer?: Viewer | null;
+  photoboxContainerId: string;
+}
 
 /**
  * BabylonJS Overlay
  */
-function Photobox(props) {
+const Photobox: React.FC<PhotoboxProps> = ({ photoboxContainerId }) => {
   const dispatch = useDispatch();
-  const { showPhotobox } = useSelector((state) => state.showPhotobox);
+  const { showPhotobox } = useSelector((state: RootState) => state.showPhotobox);
+
   useEffect(() => {
-    setupBabylonScene();
+    const cleanup = setupBabylonScene();
+    return cleanup;
   }, []);
 
   /**
    * Creates the BabilonJS scene
    */
-  const setupBabylonScene = () => {
-    const canvas = document.getElementById('renderCanvas');
+  const setupBabylonScene = (): (() => void) => {
+    const canvas = document.getElementById('renderCanvas') as HTMLCanvasElement;
+    if (!canvas) return () => {};
+
     // Load the 3D engine
     const engine = new BABYLON.Engine(canvas, true, {
       preserveDrawingBuffer: true,
@@ -29,24 +37,28 @@ function Photobox(props) {
     });
 
     // call the createScene function
-    const scene = createBabylonScene();
+    const scene = createBabylonScene(engine, canvas);
+
     // run the render loop
-    engine.runRenderLoop(function () {
+    engine.runRenderLoop(() => {
       scene.render();
     });
-    // the canvas/window resize event handler
-    window.addEventListener('resize', function () {
-      engine.resize();
-    });
-  };
 
-  /**
+    // the canvas/window resize event handler
+    const resizeHandler = () => {
+      engine.resize();
+    };
+    window.addEventListener('resize', resizeHandler);
+
+    // Cleanup function
+    return () => {
+      window.removeEventListener('resize', resizeHandler);
+      engine.dispose();
+    };
+  };  /**
    * Sets the scene up for BabylonJS
-   *
-   * @param {Object} engine
-   * @param {Object} canvas
    */
-  const createBabylonScene = (engine, canvas) => {
+  const createBabylonScene = (engine: BABYLON.Engine, canvas: HTMLCanvasElement): BABYLON.Scene => {
     const scene = new BABYLON.Scene(engine);
     const camera = new BABYLON.ArcRotateCamera(
       'Camera',
@@ -57,7 +69,7 @@ function Photobox(props) {
       scene
     );
     camera.attachControl(canvas, true);
-    camera.inputs.attached.mousewheel.detachControl(canvas);
+    camera.inputs.attached.mousewheel.detachControl();
 
     new BABYLON.PhotoDome(
       'testdome',
@@ -75,13 +87,12 @@ function Photobox(props) {
   /**
    * Controls the overlay
    */
-  const togglePhotobox = () => {
+  const togglePhotobox = (): void => {
     dispatch(show(!showPhotobox));
   };
 
-  const { photoboxContainerId } = props;
   const pbClassName = `box stack-top ${!showPhotobox ? ' no-display' : ''}`;
-  const photoboxContainer = useRef('photoboxContainer');
+  const photoboxContainer = useRef<HTMLDivElement>(null);
 
   return (
     <React.Fragment>
@@ -100,11 +111,6 @@ function Photobox(props) {
       </div>
     </React.Fragment>
   );
-}
-
-Photobox.propTypes = {
-  viewer: PropTypes.object,
-  photoboxContainerId: PropTypes.string
 };
 
 export default Photobox;

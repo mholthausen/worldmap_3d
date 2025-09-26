@@ -16,8 +16,8 @@
     }
   ],
   "engines": {
-    "npm": ">=10.9.2",
-    "node": ">=22.17.1"
+    "npm": ">=10",
+    "node": ">=22"
   },
   "repository": {
     "type": "git",
@@ -25,47 +25,55 @@
   },
   "type": "module",
   "scripts": {
-    "test": "npm run lint",
+    "test": "npm run check",
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "lint": "eslint --ext js,jsx src/ --cache --quiet",
+    "lint": "eslint --ext js,jsx,ts,tsx src/ --cache --quiet",
+    "typecheck": "tsc --noEmit",
+    "check": "npm run lint && npm run typecheck",
     "prettier": "prettier --write --no-config \"**/*\"",
     "prettier-check": "prettier --check --no-config \"**/*\"",
     "release": "release-it -VV"
   },
   "devDependencies": {
-    "@babel/core": "7.28.0",
-    "@babel/eslint-parser": "7.28.0",
-    "@babel/preset-env": "^7.28.0",
+    "@babel/core": "7.28.4",
+    "@babel/eslint-parser": "7.28.4",
+    "@babel/preset-env": "7.28.3",
     "@babel/preset-react": "7.27.1",
-    "@reduxjs/toolkit": "2.8.2",
+    "@reduxjs/toolkit": "2.9.0",
+    "@types/react": "19.1.13",
+    "@types/react-dom": "19.1.9",
+    "@typescript-eslint/eslint-plugin": "8.44.1",
+    "@typescript-eslint/parser": "8.44.1",
+    "@vitejs/plugin-react": "5.0.3",
     "babel-loader": "10.0.0",
-    "eslint": "9.31.0",
+    "eslint": "9.36.0",
     "eslint-config-cesium": "11.0.1",
     "eslint-plugin-es": "4.1.0",
     "eslint-plugin-react": "7.37.5",
     "eslint-plugin-react-hooks": "5.2.0",
     "husky": "9.1.7",
     "prettier": "3.6.2",
-    "react": "19.1.0",
-    "react-dom": "19.1.0",
+    "react": "19.1.1",
+    "react-dom": "19.1.1",
     "react-redux": "9.2.0",
-    "release-it": "19.0.4",
-    "vite": "7.1.5",
+    "release-it": "19.0.5",
+    "typescript": "5.9.2",
+    "vite": "7.1.7",
     "vite-plugin-static-copy": "3.1.2"
   },
   "dependencies": {
-    "antd": "5.26.4",
-    "babylonjs": "8.20.0",
-    "cesium": "1.131.0",
-    "prop-types": "^15.8.1"
+    "antd": "5.27.4",
+    "babylonjs": "8.28.2",
+    "cesium": "1.133.1",
+    "prop-types": "15.8.1"
   },
   "bugs": {
     "url": "https://github.com/mholthausen/worldmap_3d/issues"
   },
   "lint-staged": {
-    "src/**/*.{js,jsx}": [
+    "src/**/*.{ts,tsx}": [
       "eslint --cache --quiet",
       "prettier --write --no-config"
     ]
