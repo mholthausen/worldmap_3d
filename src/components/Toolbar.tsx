@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Slider, InputNumber, Row, Col, Typography, Divider } from "antd";
+import { Slider, InputNumber, Row, Col, Typography, Divider, Checkbox, Space } from "antd";
 import { Cartesian3, Math as CesiumMath, Viewer } from "cesium";
 import { appVersion, cesiumVersion, babylonVersion } from "../version.ts";
 
@@ -7,12 +7,14 @@ const { Paragraph, Link, Text } = Typography;
 
 interface ToolbarProps {
   viewer?: Viewer | null;
+  tilesetStylingEnabled?: boolean;
+  onTilesetStylingChange?: (enabled: boolean) => void;
 }
 
 /**
  * Bundles the Toolbar
  */
-const Toolbar: React.FC<ToolbarProps> = ({ viewer }) => {
+const Toolbar: React.FC<ToolbarProps> = ({ viewer, tilesetStylingEnabled, onTilesetStylingChange }) => {
   const [inputValue, setInputValue] = useState<number>(1);
 
   /**
@@ -27,6 +29,15 @@ const Toolbar: React.FC<ToolbarProps> = ({ viewer }) => {
     }
 
     setInputValue(value);
+  };
+
+  /**
+   * Handle tileset styling checkbox change
+   */
+  const handleTilesetStylingChange = (checked: boolean): void => {
+    if (onTilesetStylingChange) {
+      onTilesetStylingChange(checked);
+    }
   };
 
   const flyUnderground = (): void => {
@@ -104,6 +115,78 @@ const Toolbar: React.FC<ToolbarProps> = ({ viewer }) => {
             />
           </Col>
         </Row>
+        <Divider />
+        <div className="sub-header">3D Tiles Styling</div>
+        <Row>
+          <Col span={24}>
+            <Checkbox
+              checked={tilesetStylingEnabled}
+              onChange={(e) => handleTilesetStylingChange(e.target.checked)}
+            >
+              <span className="toolbar-text">Enable feature categorization</span>
+            </Checkbox>
+          </Col>
+        </Row>
+
+        {tilesetStylingEnabled && (
+          <Row style={{ marginTop: "12px" }}>
+            <Col span={24}>
+              <div className="toolbar-text" style={{ marginBottom: "8px", fontSize: "12px", fontWeight: "bold" }}>
+                Feature Categories:
+              </div>
+              <Space direction="vertical" size="small" style={{ width: "100%" }}>
+                <div style={{ display: "flex", alignItems: "center", fontSize: "11px" }}>
+                  <div
+                    style={{
+                      width: "12px",
+                      height: "12px",
+                      backgroundColor: "#FF0000",
+                      marginRight: "8px",
+                      border: "1px solid #ccc"
+                    }}
+                  ></div>
+                  <span className="toolbar-text">1 - 711.227</span>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", fontSize: "11px" }}>
+                  <div
+                    style={{
+                      width: "12px",
+                      height: "12px",
+                      backgroundColor: "#00FF00",
+                      marginRight: "8px",
+                      border: "1px solid #ccc"
+                    }}
+                  ></div>
+                  <span className="toolbar-text">711.228 - 1.422.455</span>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", fontSize: "11px" }}>
+                  <div
+                    style={{
+                      width: "12px",
+                      height: "12px",
+                      backgroundColor: "#0000FF",
+                      marginRight: "8px",
+                      border: "1px solid #ccc"
+                    }}
+                  ></div>
+                  <span className="toolbar-text">1.422.456 - 2.133.683</span>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", fontSize: "11px" }}>
+                  <div
+                    style={{
+                      width: "12px",
+                      height: "12px",
+                      backgroundColor: "#FFFF00",
+                      marginRight: "8px",
+                      border: "1px solid #ccc"
+                    }}
+                  ></div>
+                  <span className="toolbar-text">2.133.684 - 2.844.910</span>
+                </div>
+              </Space>
+            </Col>
+          </Row>
+        )}
       </div>
     </React.Fragment>
   );

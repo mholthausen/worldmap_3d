@@ -10,6 +10,7 @@ declare module "antd/dist/reset.css";
 
 interface ImportMetaEnv {
   readonly BASE_URL: string;
+  readonly VITE_EXTERNAL_DATA_URL?: string;
 }
 
 interface ImportMeta {

@@ -27,7 +27,7 @@
 
 The purpose of this application is a short demonstration of possibilities and a selection of applications in the 3D context.
 
-## Start by npm
+## Development
 
 Start the app with
 
@@ -45,8 +45,25 @@ npm run preview
 
 Navigate to [localhost:5173](http://localhost:5173). For the built version navigate to [localhost:4173](http://localhost:4173).
 
-## Start build by docker
+## Docker Deployment
 
-`docker build -t nexus.terrestris.de/mholthausen/worldmap_3d .`  
-`docker run -p 8080:80 nexus.terrestris.de/mholthausen/worldmap_3d`  
-open [http://localhost:8080](http://localhost:8080)
+**Note:** The Docker setup has been updated to include both frontend and backend services, with external data volume mounting.
+
+For detailed Docker deployment instructions, see [DOCKER.md](./DOCKER.md).
+
+### Quick Start
+
+```bash
+# Using Docker Compose (recommended)
+docker-compose up --build
+
+# Manual build (legacy - data volume required)
+docker build -t nexus.terrestris.de/mholthausen/worldmap_3d .
+docker run -p 8080:80 -p 3001:3001 \
+  -v $(pwd)/public/data:/usr/share/nginx/html/data:ro \
+  nexus.terrestris.de/mholthausen/worldmap_3d
+```
+
+Open [http://localhost:8080](http://localhost:8080)
+
+**Important:** The `public/data` directory is no longer included in Git and must be mounted as a volume. See [DOCKER.md](./DOCKER.md) for setup details.

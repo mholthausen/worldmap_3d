@@ -10,11 +10,13 @@ const cesiumBaseUrl = "cesiumStatic";
 // https://vitejs.dev/config/
 export default defineConfig(({ command }) => {
   const isProduction = command === 'build';
-  const base = isProduction ? '/worldmap_3d/' : '/';
-  console.log(`Vite is running in ${isProduction ? 'production' : 'development'} mode.`);
+  const base = process.env.VITE_BASE_PATH || (isProduction ? '/' : '/');
+  console.log(`Vite is running in ${isProduction ? 'production' : 'development'} mode with base: ${base}`);
 
   return {
     base,
+    // Disable automatic copying of public folder only in production to avoid large data assets
+    publicDir: isProduction ? false : 'public',
     define: {
       CESIUM_BASE_URL: JSON.stringify(`${base}${cesiumBaseUrl}`),
     },
@@ -22,10 +24,19 @@ export default defineConfig(({ command }) => {
       react(),
       viteStaticCopy({
         targets: [
+          // Cesium assets (always needed)
           { src: `${cesiumSource}/ThirdParty`, dest: cesiumBaseUrl },
           { src: `${cesiumSource}/Workers`, dest: cesiumBaseUrl },
           { src: `${cesiumSource}/Assets`, dest: cesiumBaseUrl },
           { src: `${cesiumSource}/Widgets`, dest: cesiumBaseUrl },
+          // Only copy essential public assets in production, excluding large data folders
+          ...(isProduction ? [
+            { src: 'public/img', dest: '.' },
+            { src: 'public/data/tunnels.glb', dest: 'data' },
+            // Note: Large terrain and tileset data should be served separately
+            // { src: 'public/data/geotiff-terrain-output', dest: 'data' }, // 2GB - excluded
+            // { src: 'public/data/tiles-test', dest: 'data' }, // 607MB - excluded
+          ] : [])
         ],
       }),
     ],

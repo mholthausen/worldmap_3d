@@ -12,6 +12,9 @@ export const customer = {
 
 export const BASE_PATH: string = import.meta.env.BASE_URL;
 
+// External data URL for large assets (terrain and tilesets)
+export const EXTERNAL_DATA_URL: string = import.meta.env.VITE_EXTERNAL_DATA_URL || `${BASE_PATH}data/`;
+
 export const viewerConfig = {
   geocoder: true,
   skyAtmosphere: false as false,
@@ -20,7 +23,7 @@ export const viewerConfig = {
   baseLayerPicker: true,
   fullscreenButton: false,
   homeButton: true,
-  infoBox: false,
+  infoBox: false,  // Disable native InfoBox to use custom one
   sceneModePicker: true,
   selectionIndicator: true,
   navigationHelpButton: true,
@@ -69,6 +72,10 @@ export const czml_cgn_cathedral = [
 ];
 
 export const tunnelsFile: string = `${BASE_PATH}data/tunnels.glb`;
+
+export const tilesetUrl: string = `${EXTERNAL_DATA_URL}tiles-test/tileset.json`;
+
+export const terrainFile: string = `${EXTERNAL_DATA_URL}geotiff-terrain-output/`;
 
 export const wms_dwd_radar = {
   url: 'https://maps.dwd.de/geoserver/dwd/ows',
